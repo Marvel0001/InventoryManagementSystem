@@ -11,6 +11,15 @@
         <result property="storehouseId" column="storehouseId"/>
         <result property="number" column="storeNumber"/>
     </resultMap>
+    <insert id="insertStorage">
+        insert into StorageRecord (goodId, storehouseId, number) VALUES (#{goodId}, #{storehouseId}, #{amount})
+    </insert>
+    <update id="updateStorage">
+        update StorageRecord set number=#{amount} where goodId=#{goodId}
+    </update>
+    <delete id="deleteStorage">
+
+    </delete>
 
     <select id="selectAll" resultMap="storage">
         select

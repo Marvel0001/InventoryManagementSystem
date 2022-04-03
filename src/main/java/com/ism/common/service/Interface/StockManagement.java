@@ -40,4 +40,9 @@ public interface StockManagement {
      * @return json字符串
      */
     String selectByGoodType(String goodType, Integer storehouseId, Integer limit, Integer offset);
+
+    String stockIn(Integer goodId, Integer storehouseId, Integer amount);
+//
+//    String stockOut(Integer goodId, Integer storehouseId, Integer amount);
+
 }
