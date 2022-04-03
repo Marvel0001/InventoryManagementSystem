@@ -37,10 +37,20 @@ public class StockManagementController {
         return result;
     }
 
+    public String _StockIn(Integer goodId, Integer storehouseId, Integer amount){
+        return stockManagementService.stockIn(goodId, storehouseId, amount);
+    }
+
     @RequestMapping(value = "/Check", method = RequestMethod.POST)
     @ResponseBody
     public String Check(String checkType, String param, Integer offset, Integer limit, Integer storehouse){
         return _Check(checkType, param, offset, limit, storehouse);
+    }
+
+    @RequestMapping(value = "/StockIn", method = RequestMethod.POST)
+    @ResponseBody
+    public String StockIn(Integer goodId, Integer storehouseId, Integer amount){
+        return _StockIn(goodId, storehouseId, amount);
     }
 
 }

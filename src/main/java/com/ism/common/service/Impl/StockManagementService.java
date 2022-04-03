@@ -56,4 +56,31 @@ public class StockManagementService implements StockManagement {
         List<Storage> storages = storageMapper.selectByGoodType(goodType, storehouseId);
         return common(storages);
     }
+
+    @Override
+    public String stockIn(Integer goodId, Integer storehouseId, Integer amount){
+        List<Storage> storages = storageMapper.selectByGoodId(goodId, storehouseId);
+        JSONObject result = new JSONObject();
+        if(storages.size() > 0){
+            Storage storage = storages.get(0);
+            Integer goodAmount = storage.getNumber() + amount;
+            try {
+                storageMapper.updateStorage(goodId, storehouseId, goodAmount);
+                result.put("result", "success");
+            }catch (Exception e){
+                e.printStackTrace();
+                result.put("result", "failure");
+            }
+        }
+        else{
+            try{
+                storageMapper.insertStorage(goodId, storehouseId, amount);
+                result.put("result", "success");
+            }catch (Exception e){
+                e.printStackTrace();
+                result.put("result", "failure");
+            }
+        }
+        return result.toJSONString();
+    }
 }

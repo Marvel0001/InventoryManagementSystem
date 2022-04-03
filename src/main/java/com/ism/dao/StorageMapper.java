@@ -13,4 +13,10 @@ public interface StorageMapper {
     List<Storage> selectByGoodName(@Param("goodName")String goodName, @Param("storehouseId")Integer storehouseId);
 
     List<Storage> selectByGoodType(@Param("goodType")String goodType, @Param("storehouseId")Integer storehouseId);
+
+    void insertStorage(@Param("goodId")Integer goodId, @Param("storehouseId")Integer storehouseId, @Param("amount")Integer amount);
+
+    void updateStorage(@Param("goodId")Integer goodId, @Param("storehouseId")Integer storehouseId, @Param("amount")Integer amount);
+
+    void deleteStorage(@Param("goodId")Integer goodId, @Param("storehouseId")Integer storehouseId);
 }
