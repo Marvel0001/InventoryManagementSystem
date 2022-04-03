@@ -39,4 +39,8 @@
         where
             s.goodId = g.id and s.storehouseId = st.id and s.goodId = #{goodId} and s.storehouseId = #{storehouseId}
     </select>
+
+    <select id="selectByGoodName" resultMap="storage">
+
+    </select>
 </mapper>

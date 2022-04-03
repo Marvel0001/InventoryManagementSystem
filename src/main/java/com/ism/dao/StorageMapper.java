@@ -10,5 +10,5 @@ public interface StorageMapper {
 
     List<Storage> selectByGoodId(@Param("goodId")Integer goodId, @Param("storehouseId") Integer storehouseId);
 
-    List<Storage> selectByGoodName(@Param("goodName")String goodName, @Param("storehouseId"))
+    List<Storage> selectByGoodName(@Param("goodName")String goodName, @Param("storehouseId")Integer storehouseId);
 }
