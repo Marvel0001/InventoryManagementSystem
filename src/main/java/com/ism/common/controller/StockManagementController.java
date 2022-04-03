@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class StockManagementController {
     final String SELECT_ALL = "selectAll";
     final String SELECT_BY_GOOD_ID = "selectByGoodId";
+    final String SELECT_BY_GOOD_NAME = "selectByGoodName";
+    final String SELECT_BY_GOOD_TYPE = "selectByGoodType";
     @Autowired
     private StockManagementService stockManagementService;
     public String _Check(String type, String param, Integer offset, Integer limit, Integer storehouse){
@@ -25,6 +27,12 @@ public class StockManagementController {
             case SELECT_BY_GOOD_ID:
                 result = stockManagementService.selectByGoodId(Integer.valueOf(param), storehouse, limit, offset);
                 break;
+            case SELECT_BY_GOOD_NAME:
+                result = stockManagementService.selectByGoodName(param, storehouse, limit, offset);
+                break;
+            case SELECT_BY_GOOD_TYPE:
+                result = stockManagementService.selectByGoodType(param, storehouse, limit, offset);
+                break;
         }
         return result;
     }
@@ -34,10 +42,5 @@ public class StockManagementController {
     public String Check(String checkType, String param, Integer offset, Integer limit, Integer storehouse){
         return _Check(checkType, param, offset, limit, storehouse);
     }
-
-
-
-
-
 
 }
