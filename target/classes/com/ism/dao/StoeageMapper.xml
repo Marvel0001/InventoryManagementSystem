@@ -39,4 +39,31 @@
         where
             s.goodId = g.id and s.storehouseId = st.id and s.goodId = #{goodId} and s.storehouseId = #{storehouseId}
     </select>
+
+    <select id="selectByGoodName" resultMap="storage">
+        select
+            g.id as goodId,
+            g.name as goodName,
+            g.type as goodType,
+            g.value as goodValue,
+            s.storehouseId as storehouseId,
+            s.number as storeNumber
+        from
+            Good g, StorageRecord s, Storehouse st
+        where
+            s.goodId = g.id and s.storehouseId = st.id and s.storehouseId = #{storehouseId} and g.name like concat('%',concat(#{goodName}, '%'))
+    </select>
+    <select id="selectByGoodType" resultType="com.ism.domain.Storage">
+        select
+            g.id as goodId,
+            g.name as goodName,
+            g.type as goodType,
+            g.value as goodValue,
+            s.storehouseId as storehouseId,
+            s.number as storeNumber
+        from
+            Good g, StorageRecord s, Storehouse st
+        where
+            s.goodId = g.id and s.storehouseId = st.id and s.storehouseId = #{storehouseId} and g.Type = #{goodType}
+    </select>
 </mapper>
