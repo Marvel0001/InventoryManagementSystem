@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ism.dao.StorageMapper">
+    <resultMap id="storage" type="com.ism.domain.Storage">
+        <id property="goodId" column="goodId"/>
+        <result property="goodName" column="goodName"/>
+        <result property="goodType" column="goodType"/>
+        <result property="goodValue" column="goodValue"/>
+        <result property="storehouseId" column="storehouseId"/>
+        <result property="number" column="storeNumber"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="storage">
+        select
+            g.id as goodId,
+            g.name as goodName,
+            g.type as goodType,
+            g.value as goodValue,
+            s.storehouseId as storehouseId,
+            s.number as storeNumber
+        from
+            Good g, StorageRecord s, Storehouse st
+        where
+              s.goodId = g.id and s.storehouseId = st.id = #{storehouse}
+    </select>
+
+    <select id="selectByGoodId" resultMap="storage">
+        select
+            g.id as goodId,
+            g.name as goodName,
+            g.type as goodType,
+            g.value as goodValue,
+            s.storehouseId as storehouseId,
+            s.number as storeNumber
+        from
+            Good g, StorageRecord s, Storehouse st
+        where
+            s.goodId = g.id and s.storehouseId = st.id and s.goodId = #{goodId} and s.storehouseId = #{storehouseId}
+    </select>
+</mapper>
