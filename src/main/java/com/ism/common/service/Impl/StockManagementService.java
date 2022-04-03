@@ -59,6 +59,7 @@ public class StockManagementService implements StockManagement {
 
     @Override
     public String stockIn(Integer goodId, Integer storehouseId, Integer amount){
+        System.out.println(goodId + " " + storehouseId + " " +amount);
         List<Storage> storages = storageMapper.selectByGoodId(goodId, storehouseId);
         JSONObject result = new JSONObject();
         if(storages.size() > 0){
