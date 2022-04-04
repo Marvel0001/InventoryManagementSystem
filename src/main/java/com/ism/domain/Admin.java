@@ -1,5 +1,7 @@
 package com.ism.domain;
 
+import com.alibaba.fastjson.JSONObject;
+
 public class Admin {
     private Integer id;
 
@@ -14,6 +16,19 @@ public class Admin {
     private Integer storehouseId;
 
     private Integer role;
+
+    @Override
+    public String toString() {
+        JSONObject result = new JSONObject();
+        result.put("id", id);
+        result.put("name", name);
+        result.put("sex", sex);
+        result.put("telephone", telephone);
+        result.put("address", address);
+        result.put("storehouseId", storehouseId);
+        result.put("role", role);
+        return result.toJSONString();
+    }
 
     public Admin() {
     }

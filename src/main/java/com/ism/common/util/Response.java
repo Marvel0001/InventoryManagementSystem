@@ -25,6 +25,14 @@ public class Response {
         result.put("length", length);
     }
 
+    public void success(){
+        setResult("成功");
+    }
+
+    public void failure(){
+        setResult("失败");
+    }
+
     public String toJSONString(){
         return result.toJSONString();
     }

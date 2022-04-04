@@ -25,11 +25,11 @@ public class StockManagementService implements StockManagement {
             }
             result.setData(data.toString());
             result.setLength(length);
-            result.setResult("success");
+            result.success();
         }
         else{
-            result.setResult("failure");
-            result.setData("good not found");
+            result.failure();
+            result.setData("找不到该货物");
         }
         return result.toJSONString();
     }
@@ -73,21 +73,21 @@ public class StockManagementService implements StockManagement {
             Integer goodAmount = storage.getNumber() + amount;
             try {
                 storageMapper.updateStorage(goodId, storehouseId, goodAmount);
-                response.setResult("success");
+                response.success();
             }catch (Exception e){
                 e.printStackTrace();
-                response.setResult("failure");
-                response.setData("update failure");
+                response.failure();
+                response.setData("入库失败");
             }
         }
         else{
             try{
                 storageMapper.insertStorage(goodId, storehouseId, amount);
-                response.setResult("success");
+                response.success();
             }catch (Exception e){
                 e.printStackTrace();
-                response.setResult("failure");
-                response.setData("insert failure");
+                response.failure();
+                response.setData("入库失败");
             }
         }
         return response.toJSONString();
@@ -100,22 +100,22 @@ public class StockManagementService implements StockManagement {
             Storage storage = storages.get(0);
             Integer number = storage.getNumber();
             if(amount > number){
-                response.setResult("failure");
-                response.setData("good amount not enough");
+                response.failure();
+                response.setData("货物数量不够");
             }
             else if(amount.equals(number)){
                 storageMapper.deleteStorage(goodId, storehouseId);
-                response.setResult("success");
+                response.success();
             }
             else{
                 number -= amount;
                 storageMapper.updateStorage(goodId, storehouseId, number);
-                response.setResult("success");
+                response.success();
             }
         }
         else {
-            response.setResult("failure");
-            response.setData("good not found");
+            response.failure();
+            response.setData("找不到该货物");
         }
         return response.toJSONString();
     }
@@ -126,14 +126,14 @@ public class StockManagementService implements StockManagement {
         if(status.equals(0) || status.equals(1)) {
             try {
                 storageMapper.addStorehouse(address, status);
-                response.setResult("success");
+                response.success();
             } catch (Exception e) {
-                response.setResult("failure");
+                response.failure();
             }
         }
         else {
-            response.setResult("failure");
-            response.setData("status error");
+            response.failure();
+            response.setData("状态设置错误");
         }
         return response.toJSONString();
     }

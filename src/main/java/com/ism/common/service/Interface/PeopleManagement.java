@@ -7,9 +7,13 @@ public interface PeopleManagement {
 
     String selectAdminById(Integer adminId);
 
-    String selectAllAdmin();
+    String selectAdminByStorehouseId(Integer storehouseId, Integer offset, Integer limit);
 
-    String modifyAdmin(String type, String param, Integer adminId);
+    String selectAdminByName(String name, Integer offset, Integer limit);
+
+    String selectAllAdmin(Integer offset, Integer limit);
+
+    String modifyAdmin(Admin admin);
 
     String deleteAdmin(Admin admin);
 }

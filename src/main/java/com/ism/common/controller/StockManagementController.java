@@ -18,28 +18,32 @@ public class StockManagementController {
 
     @Autowired
     private StockManagementService stockManagementService;
-    public String _Check(String type, String param, Integer offset, Integer limit, Integer storehouse){
+
+    public String _Select(String type, String param, Integer offset, Integer limit, Integer storehouseId){
         String result = "";
         switch(type){
             case SELECT_ALL:
-                 result = stockManagementService.selectAll(storehouse, limit, offset);
+                 result = stockManagementService.selectAll(storehouseId, limit, offset);
                  break;
             case SELECT_BY_GOOD_ID:
-                result = stockManagementService.selectByGoodId(Integer.valueOf(param), storehouse, limit, offset);
+                result = stockManagementService.selectByGoodId(Integer.valueOf(param), storehouseId, limit, offset);
                 break;
             case SELECT_BY_GOOD_NAME:
-                result = stockManagementService.selectByGoodName(param, storehouse, limit, offset);
+                result = stockManagementService.selectByGoodName(param, storehouseId, limit, offset);
                 break;
             case SELECT_BY_GOOD_TYPE:
-                result = stockManagementService.selectByGoodType(param, storehouse, limit, offset);
+                result = stockManagementService.selectByGoodType(param, storehouseId, limit, offset);
+                break;
+            default:
+                result = "{\"result\":\"failure\", \"data\": \"select type error\"}";
                 break;
         }
         return result;
     }
 
-    @RequestMapping(value = "/Check", method = RequestMethod.POST)
-    public String Check(String checkType, String param, Integer offset, Integer limit, Integer storehouse){
-        return _Check(checkType, param, offset, limit, storehouse);
+    @RequestMapping(value = "/Select", method = RequestMethod.POST)
+    public String Select(String type, String param, Integer offset, Integer limit, Integer storehouseId){
+        return _Select(type, param, offset, limit, storehouseId);
     }
 
     @RequestMapping(value = "/StockIn", method = RequestMethod.POST)
