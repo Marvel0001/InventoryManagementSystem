@@ -19,4 +19,6 @@ public interface StorageMapper {
     void updateStorage(@Param("goodId")Integer goodId, @Param("storehouseId")Integer storehouseId, @Param("amount")Integer amount);
 
     void deleteStorage(@Param("goodId")Integer goodId, @Param("storehouseId")Integer storehouseId);
+
+    void addStorehouse(@Param("address")String address, @Param("status")Integer status);
 }
