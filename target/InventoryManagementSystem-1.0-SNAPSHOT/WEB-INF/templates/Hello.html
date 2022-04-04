@@ -53,13 +53,13 @@
             test:function (event) {
                 axios({
                     method:"post",
-                    url:"http://localhost:8080/StockManagement/Check",
+                    url:"http://localhost:8080/StockManagement/Select",
                     params:{
-                        checkType:"selectAll",
+                        type:"selectAll",
                         param:"1",
                         offset:"0",
-                        limit:"1",
-                        storehouse:"1"
+                        limit:"5",
+                        storehouseId:"1"
                     }
                 }).then(function (response){
                     alert(response.data.data)
@@ -80,7 +80,7 @@
                         param:"3",
                         offset:"0",
                         limit:"5",
-                        storehouse:"1"
+                        storehouseId:"1"
                     }
                 }).then(function (response){
                     alert(response.data.data)

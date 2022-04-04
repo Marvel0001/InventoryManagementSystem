@@ -1,7 +1,6 @@
 package com.ism.security.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.ism.common.util.Response;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -11,27 +10,44 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/account")
+@RequestMapping("/Account")
+@ResponseBody
 public class AccountController {
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
+
+    @RequestMapping(value = "/Login", method = RequestMethod.POST)
     public String login(String userid, String password){
         Subject subject = SecurityUtils.getSubject();
-        JSONObject result = new JSONObject();
+        Response response = Response.generateResponse();
         System.out.println(userid + "  " + password);
         if(subject != null && !subject.isAuthenticated()){
             UsernamePasswordToken token = new UsernamePasswordToken(userid, password);
             try {
                 subject.login(token);
-                result.put("result", "success");
+                response.success();
             }catch (Exception e){
                 e.printStackTrace();
-                result.put("result", "failure");
+                response.failure();
             }
         }
         else{
-            result.put("result", "already login");
+            response.failure();
         }
-        return result.toJSONString();
+        return response.toJSONString();
+    }
+
+    @RequestMapping(value = "/Logout", method = RequestMethod.POST)
+    public String Logout(){
+        Response response = Response.generateResponse();
+        Subject subject = SecurityUtils.getSubject();
+
+        if(subject != null && subject.isAuthenticated()){
+            subject.logout();
+            response.success();
+        }
+        else {
+            response.failure();
+            response.setData("当前未被授权");
+        }
+        return response.toJSONString();
     }
 }

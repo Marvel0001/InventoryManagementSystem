@@ -26,10 +26,16 @@
         delete from Admin where id=#{id}
     </delete>
     <select id="selectAdminById" resultType="com.ism.domain.Admin">
-        select * from Admin where id=#{id}
+        select * from Admin where id=#{adminId}
     </select>
     <select id="selectAllAdmin" resultType="com.ism.domain.Admin">
-        select * from  Admin;
+        select * from Admin
+    </select>
+    <select id="selectAdminByName" resultType="com.ism.domain.Admin">
+        select * from Admin where name LIKE concat('%', concat(#{name}, '%'))
+    </select>
+    <select id="selectAdminByStorehouseId" resultType="com.ism.domain.Admin">
+        select * from Admin where storehouseId=#{storehouseId}
     </select>
 
 
