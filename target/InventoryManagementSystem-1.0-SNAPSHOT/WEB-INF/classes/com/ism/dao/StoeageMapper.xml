@@ -14,11 +14,14 @@
     <insert id="insertStorage">
         insert into StorageRecord (goodId, storehouseId, number) VALUES (#{goodId}, #{storehouseId}, #{amount})
     </insert>
+    <insert id="addStorehouse">
+         insert into Storehouse (address, status) VALUES (#{address}, #{status})
+    </insert>
     <update id="updateStorage">
-        update StorageRecord set number=#{amount} where goodId=#{goodId}
+        update StorageRecord set number=#{amount} where goodId=#{goodId} and storehouseId=#{storehouseId}
     </update>
     <delete id="deleteStorage">
-
+        delete from StorageRecord where goodId=#{goodId} and storehouseId=#{storehouseId}
     </delete>
 
     <select id="selectAll" resultMap="storage">

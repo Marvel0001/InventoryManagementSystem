@@ -42,7 +42,8 @@ public interface StockManagement {
     String selectByGoodType(String goodType, Integer storehouseId, Integer limit, Integer offset);
 
     String stockIn(Integer goodId, Integer storehouseId, Integer amount);
-//
-//    String stockOut(Integer goodId, Integer storehouseId, Integer amount);
 
+    String stockOut(Integer goodId, Integer storehouseId, Integer amount);
+
+    String addStorehouse(String address, Integer status);
 }
