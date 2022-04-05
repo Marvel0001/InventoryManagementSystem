@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ims.dao.StorehouseMapper">
+    <resultMap id="Storehouse" type="com.ims.domain.Storehouse">
+        <id property="id" column="id"/>
+        <result property="address" column="address"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <insert id="addStorehouse">
+        insert into Storehouse (address, status) VALUES (#{address}, #{status})
+    </insert>
+
+    <select id="selectAllStorehouse" resultMap="Storehouse">
+        select * from Storehouse
+    </select>
+
+    <select id="selectStorehouseById" resultMap="Storehouse">
+        select * from Storehouse where id=#{id}
+    </select>
+
+    <select id="selectStorehouseByRegion" resultMap="Storehouse">
+        select * from Storehouse where address like concat('%', concat(#{region}, '%'))
+    </select>
+
+    <select id="selectStorehouseEnabled" resultMap="Storehouse">
+        select * from Storehouse where status=1
+    </select>
+
+    <select id="selectStorehouseDisabled" resultMap="Storehouse">
+        select * from Storehouse where status=0
+    </select>
+
+    <update id="modifyStorehouse">
+        update
+            Storehouse
+        set
+            <if test="address != null">
+                address=#{address}
+            </if>
+            <if test="status != null">
+                status=#{status}
+            </if>
+        where id=#{id}
+    </update>
+
+    <delete id="deleteStorehouse">
+        delete from Storehouse where id=#{id}
+    </delete>
+</mapper>
