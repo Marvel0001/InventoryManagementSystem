@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ims.dao.GoodMapper">
+    <resultMap id="Good" type="com.ims.domain.Good">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="value" column="value"/>
+    </resultMap>
+
+    <insert id="addGood">
+        insert into Good (name, type, value) VALUES (#{name}, #{type}, #{value})
+    </insert>
+
+    <select id="selectGoodById" resultMap="Good">
+        select * from Good where id=#{id}
+    </select>
+
+    <select id="selectGoodByName" resultMap="Good">
+        select * from Good where name like concat('%', concat(#{name}, '%'))
+    </select>
+
+    <select id="selectGoodByType" resultMap="Good">
+        select * from Good where type like concat('%', concat(#{type}, '%'))
+    </select>
+
+    <select id="selectGoodByValue" resultMap="Good">
+        select * from Good where value=#{value}
+    </select>
+
+    <select id="selectGoodMoreThan" resultMap="Good">
+        select * from Good where value&gt;#{value}
+    </select>
+
+    <select id="selectGoodLessThan" resultMap="Good">
+        select * from Good where value&lt;#{value}
+    </select>
+    <select id="selectAllGood" resultMap="Good">
+        select * from Good
+    </select>
+
+    <update id="modifyGood">
+        update
+            Good
+        set
+            <if test="name != null">
+                name=#{name}
+            </if>
+            <if test="type != null">
+                type=#{type}
+            </if>
+            <if test="value != null">
+                value=#{value}
+            </if>
+        where
+            id=#{id}
+    </update>
+
+    <delete id="deleteGood">
+        delete from Good where id=#{id}
+    </delete>
+</mapper>

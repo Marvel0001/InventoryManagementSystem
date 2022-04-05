@@ -1,5 +1,7 @@
 package com.ims.domain;
 
+import com.alibaba.fastjson.JSONObject;
+
 public class Good {
     private int id;
     private String name;
@@ -18,12 +20,12 @@ public class Good {
 
     @Override
     public String toString() {
-        return "Good{" +
-                "name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", value=" + value + '\'' +
-                ", id=" + id +
-                '}';
+        JSONObject result =new JSONObject();
+        result.put("name", name);
+        result.put("type", type);
+        result.put("value", value);
+        result.put("id", id);
+        return result.toJSONString();
     }
 
     public String getName() {

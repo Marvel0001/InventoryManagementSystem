@@ -26,11 +26,11 @@ public class Response {
     }
 
     public void success(){
-        setResult("成功");
+        setResult("success");
     }
 
     public void failure(){
-        setResult("失败");
+        setResult("failure");
     }
 
     public void exception(String result){
