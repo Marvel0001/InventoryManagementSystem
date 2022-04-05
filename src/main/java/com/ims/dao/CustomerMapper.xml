@@ -22,16 +22,16 @@
             Customer
         set
             <if test="company != null">
-                company=#{company}
+                company=#{company},
             </if>
             <if test="person != null">
-                person=#{person}
+                person=#{person},
             </if>
             <if test="telephone != null">
-                telephone=#{telephone}
+                telephone=#{telephone},
             </if>
             <if test="email != null">
-                email=#{email}
+                email=#{email},
             </if>
             <if test="address != null">
                 address=#{address}
