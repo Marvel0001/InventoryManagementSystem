@@ -1,6 +1,9 @@
 package com.ims.domain;
 
+import com.alibaba.fastjson.JSONObject;
+
 public class Supplier {
+    private Integer id;
     private String company;
     private String person;
     private String telephone;
@@ -20,13 +23,22 @@ public class Supplier {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "company='" + company + '\'' +
-                ", person='" + person + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                '}';
+        JSONObject result = new JSONObject();
+        result.put("id", id);
+        result.put("company", company);
+        result.put("person", person);
+        result.put("telephone", telephone);
+        result.put("email", email);
+        result.put("address", address);
+        return result.toJSONString();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCompany() {
