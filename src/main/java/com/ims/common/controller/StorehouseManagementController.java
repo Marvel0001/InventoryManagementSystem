@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/StorehouseManagement")
 @ResponseBody
-public class StorehouseManagement {
+public class StorehouseManagementController {
     @Autowired
     StorehouseManagementService storehouseManagementService;
 

@@ -26,8 +26,7 @@ public class AccountController {
                 response.success();
             }catch (Exception e){
                 e.printStackTrace();
-                response.failure();
-                response.setData("账号或密码错误");
+                response.exception("账号或密码错误");
             }
         }
         else{
@@ -46,8 +45,7 @@ public class AccountController {
             response.success();
         }
         else {
-            response.failure();
-            response.setData("当前未被授权");
+            response.exception("当前未登录");
         }
         return response.toJSONString();
     }
