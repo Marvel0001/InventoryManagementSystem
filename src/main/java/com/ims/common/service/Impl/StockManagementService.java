@@ -114,21 +114,4 @@ public class StockManagementService implements StockManagement {
         }
         return response.toJSONString();
     }
-
-    @Override
-    public String addStorehouse(String address, Integer status) {
-        Response response = Response.generateResponse();
-        if(status.equals(0) || status.equals(1)) {
-            try {
-                storageMapper.addStorehouse(address, status);
-                response.success();
-            } catch (Exception e) {
-                response.failure();
-            }
-        }
-        else {
-            response.exception("状态设置出错");
-        }
-        return response.toJSONString();
-    }
 }

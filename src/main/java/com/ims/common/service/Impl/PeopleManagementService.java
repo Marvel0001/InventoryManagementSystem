@@ -112,4 +112,9 @@ public class PeopleManagementService implements PeopleManagement {
         }
         return response.toJSONString();
     }
+
+    @Override
+    public Admin _selectByUsername(String name){
+        return adminMapper.selectAdminByName(name).get(0);
+    }
 }

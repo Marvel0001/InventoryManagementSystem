@@ -44,6 +44,4 @@ public interface StockManagement {
     String stockIn(Integer goodId, Integer storehouseId, Integer amount);
 
     String stockOut(Integer goodId, Integer storehouseId, Integer amount);
-
-    String addStorehouse(String address, Integer status);
 }

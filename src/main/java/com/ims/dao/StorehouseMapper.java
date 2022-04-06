@@ -7,8 +7,6 @@ import java.util.List;
 
 @Repository
 public interface StorehouseMapper {
-    void addStorehouse(Storehouse storehouse);
-
     List<Storehouse> selectStorehouseById(Integer storehouseId);
 
     List<Storehouse> selectStorehouseByRegion(String region);

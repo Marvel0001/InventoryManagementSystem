@@ -54,9 +54,4 @@ public class StockManagementController {
         return stockManagementService.stockOut(goodId, storehouseId, amount);
     }
 
-    @RequestMapping(value = "/AddStorehouse", method = RequestMethod.POST)
-    public String AddStorehouse(String address, Integer status){
-        return stockManagementService.addStorehouse(address, status);
-    }
-
 }
