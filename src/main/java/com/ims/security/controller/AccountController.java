@@ -33,6 +33,7 @@ public class AccountController {
             response.exception("用户名错误");
             return response.toJSONString();
         }
+        System.out.println(admin);
         if(subject != null){
             if(!subject.isAuthenticated()) {
                 UsernamePasswordToken token = new UsernamePasswordToken(username, password);

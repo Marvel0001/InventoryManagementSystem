@@ -2,6 +2,9 @@ package com.ims.common.controller;
 
 import com.ims.common.service.Impl.StockManagementService;
 import com.ims.common.util.Response;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,16 +44,34 @@ public class StockManagementController {
 
     @RequestMapping(value = "/Select", method = RequestMethod.POST)
     public String Select(String type, String param, Integer offset, Integer limit, Integer storehouseId){
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+
+        if(!storehouseId.toString().equals(session.getAttribute("storehouseId"))){
+            return Response._exception("禁止跨仓库管理");
+        }
         return _Select(type, param, offset, limit, storehouseId);
     }
 
     @RequestMapping(value = "/StockIn", method = RequestMethod.POST)
     public String StockIn(Integer goodId, Integer storehouseId, Integer amount){
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+
+        if(!storehouseId.toString().equals(session.getAttribute("storehouseId"))){
+            return Response._exception("禁止跨仓库管理");
+        }
         return stockManagementService.stockIn(goodId, storehouseId, amount);
     }
 
     @RequestMapping(value = "/StockOut", method = RequestMethod.POST)
     public String StockOut(Integer goodId, Integer storehouseId, Integer amount){
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+
+        if(!storehouseId.toString().equals(session.getAttribute("storehouseId"))){
+            return Response._exception("禁止跨仓库管理");
+        }
         return stockManagementService.stockOut(goodId, storehouseId, amount);
     }
 

@@ -1,12 +1,15 @@
 package com.ims.dao;
 
 import com.ims.domain.Storehouse;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface StorehouseMapper {
+    void addStorehouse(Storehouse storehouse);
+
     List<Storehouse> selectStorehouseById(Integer storehouseId);
 
     List<Storehouse> selectStorehouseByRegion(String region);
