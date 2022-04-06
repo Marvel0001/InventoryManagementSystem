@@ -16,4 +16,6 @@ public interface PeopleManagement {
     String modifyAdmin(Admin admin);
 
     String deleteAdmin(Admin admin);
+
+    Admin _selectByUsername(String name);
 }
