@@ -6,18 +6,10 @@
 </head>
 <body>
 <form action="/account/login" method="post" id="form">
-    用户id:<input v-model="userid" type="text"><br>
+    用户id:<input v-model="username" type="text"><br>
     密码：<input v-model="password" type="password"><br>
     <input type="button" @Click="login($event)">
 </form>
-<LABEL>
-    选择全部：<input type="button" @Click="test($event)" id="test"><br>
-    通过id选择:<input type="button" @Click="test($event)" id="byid"><br>
-    进库：<input type="button" @Click="test($event)" id="stockin">
-
-</LABEL>
-
-
 <script src="/js/vue.js"></script>
 <script src="/js/axios.min.js"></script>
 <script>
@@ -31,14 +23,14 @@
             login:function (event) {
                 axios({
                     method:"post",
-                    url:"http://localhost:8080/account/login",
+                    url:"http://localhost:8080/Account/Login",
                     params:{
-                        userid:this.userid,
+                        username:this.username,
                         password:this.password
                     }
                 }).then(function (response){
                     if(response.data.result !== "failure"){
-                        alert("登陆成功")
+                        window.location.href="/mainPage"
                     }
                     else
                         alert("登陆失败")
@@ -46,66 +38,7 @@
             }
         }
     })
-    new Vue({
-        el:"#test",
-        methods:{
-            test:function (event) {
-                axios({
-                    method:"post",
-                    url:"http://localhost:8080/StockManagement/Check",
-                    params:{
-                        checkType:"selectAll",
-                        param:"1",
-                        offset:"0",
-                        limit:"1",
-                        storehouse:"1"
-                    }
-                }).then(function (response){
-                    alert(response.data.data)
-                    alert(response.data.length)
-                })
-            }
-        }
-    })
-    new Vue({
-        el:"#byid",
-        methods:{
-            test:function (event) {
-                axios({
-                    method:"post",
-                    url:"http://localhost:8080/StockManagement/Check",
-                    params:{
-                        checkType:"selectByGoodId",
-                        param:"3",
-                        offset:"0",
-                        limit:"5",
-                        storehouse:"1"
-                    }
-                }).then(function (response){
-                    alert(response.data.data)
-                    alert(response.data.length)
-                })
-            }
-        }
-    })
-    new Vue({
-        el:"#stockin",
-        methods:{
-            test:function (event) {
-                axios({
-                    method:"post",
-                    url:"http://localhost:8080/StockManagement/StockIn",
-                    params:{
-                        goodId:"1",
-                        storehouseId:"1",
-                        amount:"10"
-                    }
-                }).then(function (response){
-                    alert(response.data.result)
-                })
-            }
-        }
-    })
+
 </script>
 </body>
 </html>
