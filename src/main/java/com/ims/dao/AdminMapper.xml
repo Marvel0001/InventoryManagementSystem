@@ -14,9 +14,9 @@
     </resultMap>
     <insert id="addAdmin">
         insert into
-            Admin (name, sex, telephone, address, storehouseId, role)
+            Admin (name, sex, telephone, address, storehouseId, role, password)
         VALUES
-            (#{name}, #{sex}, #{telephone}, #{address}, #{storehouseId}, #{role})
+            (#{name}, #{sex}, #{telephone}, #{address}, #{storehouseId}, #{role}, #{password})
     </insert>
     <update id="modifyAdmin">
         update

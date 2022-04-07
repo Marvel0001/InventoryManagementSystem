@@ -54,6 +54,9 @@
     <select id="selectAllCustomer" resultMap="Customer">
         select * from Customer
     </select>
+    <select id="selectAllCustomerName" resultType="java.lang.String">
+        select person from Customer
+    </select>
 
 
 </mapper>

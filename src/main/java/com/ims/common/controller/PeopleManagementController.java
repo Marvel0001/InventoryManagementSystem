@@ -21,7 +21,7 @@ public class PeopleManagementController {
     final String SELECT_BY_NAME = "selectByName";
     final String SELECT_ALL = "selectAll";
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public String addAdmin(Admin admin){
         return peopleManagementService.addAdmin(admin);
     }
@@ -45,17 +45,17 @@ public class PeopleManagementController {
         }
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String Select(String type, String param, Integer offset, Integer limit){
         return _Select(type, param, offset, limit);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    @RequestMapping(value = "", method = RequestMethod.PUT)
     public String Modify(Admin admin){
         return peopleManagementService.modifyAdmin(admin);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.DELETE)
+    @RequestMapping(value = "", method = RequestMethod.DELETE)
     public String Delete(Admin admin){
         return peopleManagementService.deleteAdmin(admin);
     }

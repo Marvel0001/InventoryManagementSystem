@@ -2,13 +2,13 @@ package com.ims.common.service.Interface;
 
 import com.ims.domain.Customer;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 public interface CustomerManagement {
     String addCustomer(Customer customer);
 
-    String selectCommon(List<Customer> customers);
+    String selectCommon(ArrayList<Customer> customers);
 
     String selectCustomerById(Integer id);
 

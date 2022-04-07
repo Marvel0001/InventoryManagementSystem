@@ -9,17 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PeopleManagementService implements PeopleManagement {
     @Autowired
     AdminMapper adminMapper;
 
+    final String SELECT = "SELECT";
+    final String INSERT = "INSERT";
+    final String DELETE = "DELETE";
+    final String MODIFY = "MODIFY";
+
     @Override
     public String addAdmin(Admin admin) {
         Response response = Response.generateResponse();
-        if(admin != null){
+        if(verification(admin, response, INSERT)){
             try {
                 adminMapper.addAdmin(admin);
                 response.success();
@@ -27,29 +31,26 @@ public class PeopleManagementService implements PeopleManagement {
                 response.exception("参数不足");
             }
         }
-        else {
-            response.exception("参数不足");
-        }
         return response.toJSONString();
     }
 
     @Override
     public String selectAdminById(Integer adminId) {
-        List<Admin> admins = adminMapper.selectAdminById(adminId);
+        ArrayList<Admin> admins = adminMapper.selectAdminById(adminId);
         return selectCommon(admins);
     }
 
     public String selectAdminByName(String name, Integer offset, Integer limit){
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Admin> admins = adminMapper.selectAdminByName(name);
+        ArrayList<Admin> admins = adminMapper.selectAdminByName(name);
         return selectCommon(admins);
     }
 
     public String selectAdminByStorehouseId(Integer storehouseId, Integer offset, Integer limit){
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Admin> admins = adminMapper.selectAdminByStorehouseId(storehouseId);
+        ArrayList<Admin> admins = adminMapper.selectAdminByStorehouseId(storehouseId);
         return selectCommon(admins);
     }
 
@@ -57,11 +58,11 @@ public class PeopleManagementService implements PeopleManagement {
     public String selectAllAdmin(Integer offset, Integer limit){
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Admin> admins = adminMapper.selectAllAdmin();
+        ArrayList<Admin> admins = adminMapper.selectAllAdmin();
         return selectCommon(admins);
     }
 
-    public String selectCommon(List<Admin> admins){
+    public String selectCommon(ArrayList<Admin> admins){
         Response response = Response.generateResponse();
         int length = admins.size();
         if(length > 0){
@@ -82,7 +83,7 @@ public class PeopleManagementService implements PeopleManagement {
     @Override
     public String modifyAdmin(Admin admin) {
         Response response = Response.generateResponse();
-        if(admin != null){
+        if(verification(admin, response, MODIFY)){
             try{
                 adminMapper.modifyAdmin(admin);
                 response.success();
@@ -90,16 +91,13 @@ public class PeopleManagementService implements PeopleManagement {
                 response.exception("修改失败");
             }
         }
-        else{
-            response.exception("参数不足");
-        }
         return response.toJSONString();
     }
 
     @Override
     public String deleteAdmin(Admin admin) {
         Response response = Response.generateResponse();
-        if(admin != null){
+        if(verification(admin, response, DELETE)){
             try {
                 adminMapper.deleteAdmin(admin);
                 response.success();
@@ -107,10 +105,26 @@ public class PeopleManagementService implements PeopleManagement {
                 response.exception("删除失败");
             }
         }
-        else{
-            response.exception("参数不足");
-        }
         return response.toJSONString();
+    }
+
+    private boolean verification(Admin admin, Response response, String operation){
+        if(admin == null){
+            response.exception("参数不能为空");
+            return false;
+        }
+        switch (operation){
+            case INSERT:
+            case SELECT:
+                break;
+            case MODIFY:
+            case DELETE:
+                if(admin.getId() == 0){
+                    response.exception("id不能为空");
+                    return false;
+                }
+        }
+        return true;
     }
 
     @Override

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class SupplierManagementService implements SupplierManagement {
@@ -35,7 +34,7 @@ public class SupplierManagementService implements SupplierManagement {
     }
 
     @Override
-    public String selectCommon(List<Supplier> suppliers) {
+    public String selectCommon(ArrayList<Supplier> suppliers) {
         Response response = Response.generateResponse();
         int length = suppliers.size();
         if(length > 0){
@@ -55,7 +54,7 @@ public class SupplierManagementService implements SupplierManagement {
 
     @Override
     public String selectSupplierById(Integer id) {
-        List<Supplier> suppliers = supplierMapper.selectSupplierById(id);
+        ArrayList<Supplier> suppliers = supplierMapper.selectSupplierById(id);
         return selectCommon(suppliers);
     }
 
@@ -63,7 +62,7 @@ public class SupplierManagementService implements SupplierManagement {
     public String selectSupplierByCompany(String company, Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Supplier> suppliers = supplierMapper.selectSupplierByCompany(company);
+        ArrayList<Supplier> suppliers = supplierMapper.selectSupplierByCompany(company);
         return selectCommon(suppliers);
     }
 
@@ -71,7 +70,7 @@ public class SupplierManagementService implements SupplierManagement {
     public String selectSupplierByPerson(String person, Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Supplier> suppliers = supplierMapper.selectSupplierByPerson(person);
+        ArrayList<Supplier> suppliers = supplierMapper.selectSupplierByPerson(person);
         return selectCommon(suppliers);
     }
 
@@ -79,7 +78,7 @@ public class SupplierManagementService implements SupplierManagement {
     public String selectAllSupplier(Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Supplier> suppliers = supplierMapper.selectAllSupplier();
+        ArrayList<Supplier> suppliers = supplierMapper.selectAllSupplier();
         return selectCommon(suppliers);
     }
 

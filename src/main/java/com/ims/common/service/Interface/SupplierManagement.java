@@ -2,12 +2,12 @@ package com.ims.common.service.Interface;
 
 import com.ims.domain.Supplier;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface SupplierManagement {
     String addSupplier(Supplier Supplier);
 
-    String selectCommon(List<Supplier> Suppliers);
+    String selectCommon(ArrayList<Supplier> Suppliers);
 
     String selectSupplierById(Integer id);
 

@@ -22,8 +22,6 @@ public class SupplierManagementController {
         return supplierManagementService.addSupplier(supplier);
     }
 
-
-
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public String modifySupplier(Supplier supplier){
         System.out.println(supplier);

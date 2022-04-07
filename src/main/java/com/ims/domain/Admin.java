@@ -17,6 +17,8 @@ public class Admin {
 
     private Integer role;
 
+    private String password;
+
     @Override
     public String toString() {
         JSONObject result = new JSONObject();
@@ -33,13 +35,22 @@ public class Admin {
     public Admin() {
     }
 
-    public Admin(String name, String sex, String telephone, String address, Integer storehouseId, Integer role) {
+    public Admin(String name, String sex, String telephone, String address, Integer storehouseId, Integer role, String password) {
         this.name = name;
         this.sex = sex;
         this.telephone = telephone;
         this.address = address;
         this.storehouseId = storehouseId;
         this.role = role;
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getId() {

@@ -3,25 +3,25 @@ package com.ims.dao;
 import com.ims.domain.Good;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public interface GoodMapper {
     void addGood(Good good);
 
-    List<Good> selectGoodById(Integer id);
+    ArrayList<Good> selectGoodById(Integer id);
 
-    List<Good> selectGoodByName(String name);
+    ArrayList<Good> selectGoodByName(String name);
 
-    List<Good> selectGoodByType(String type);
+    ArrayList<Good> selectGoodByType(String type);
 
-    List<Good> selectGoodByValue(Float value);
+    ArrayList<Good> selectGoodByValue(Float value);
 
-    List<Good> selectGoodMoreThan(Float value);
+    ArrayList<Good> selectGoodMoreThan(Float value);
 
-    List<Good> selectGoodLessThan(Float value);
+    ArrayList<Good> selectGoodLessThan(Float value);
 
-    List<Good> selectAllGood();
+    ArrayList<Good> selectAllGood();
 
     void modifyGood(Good good);
 
