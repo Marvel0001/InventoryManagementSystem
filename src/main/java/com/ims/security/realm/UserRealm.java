@@ -1,7 +1,7 @@
 package com.ims.security.realm;
 
-import com.ims.dao.UserMapper;
-import com.ims.domain.User;
+import com.ims.common.service.Impl.PeopleManagementService;
+import com.ims.domain.Admin;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -13,7 +13,7 @@ import java.util.HashSet;
 
 public class UserRealm extends AuthorizingRealm {
     @Autowired
-    private UserMapper userMapper;
+    private PeopleManagementService peopleManagementService;
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         HashSet<String> set = new HashSet<>();
@@ -26,7 +26,7 @@ public class UserRealm extends AuthorizingRealm {
         String name = getName();
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
         String principal = usernamePasswordToken.getUsername();
-        User user = userMapper.selectUserByUsername(principal);
-        return new SimpleAuthenticationInfo(principal, user.getPassword(), name);
+        Admin admin = peopleManagementService._selectByUsername(principal);
+        return new SimpleAuthenticationInfo(principal, admin.getPassword(), name);
     }
 }

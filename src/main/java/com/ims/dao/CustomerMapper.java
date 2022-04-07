@@ -3,19 +3,21 @@ package com.ims.dao;
 import com.ims.domain.Customer;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public interface CustomerMapper {
     void addCustomer(Customer customer);
 
-    List<Customer> selectCustomerById(Integer id);
+    ArrayList<String> selectAllCustomerName();
 
-    List<Customer> selectCustomerByCompany(String company);
+    ArrayList<Customer> selectCustomerById(Integer id);
 
-    List<Customer> selectCustomerByPerson(String person);
+    ArrayList<Customer> selectCustomerByCompany(String company);
 
-    List<Customer> selectAllCustomer();
+    ArrayList<Customer> selectCustomerByPerson(String person);
+
+    ArrayList<Customer> selectAllCustomer();
 
     void modifyCustomer(Customer customer);
 

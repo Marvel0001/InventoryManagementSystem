@@ -2,7 +2,7 @@ package com.ims.common.service.Interface;
 
 import com.ims.domain.Good;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 public interface GoodManagement {
@@ -22,7 +22,7 @@ public interface GoodManagement {
 
     String selectAllGood(Integer offset, Integer limit);
 
-    String selectCommon(List<Good> goods);
+    String selectCommon(ArrayList<Good> goods);
 
     String modifyGood(Good good);
 

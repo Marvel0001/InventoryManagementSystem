@@ -3,19 +3,21 @@ package com.ims.dao;
 import com.ims.domain.Supplier;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public interface SupplierMapper {
     void addSupplier(Supplier supplier);
 
-    List<Supplier> selectSupplierById(Integer id);
+    ArrayList<String> selectAllSupplierName();
 
-    List<Supplier> selectSupplierByCompany(String company);
+    ArrayList<Supplier> selectSupplierById(Integer id);
 
-    List<Supplier> selectSupplierByPerson(String person);
+    ArrayList<Supplier> selectSupplierByCompany(String company);
 
-    List<Supplier> selectAllSupplier();
+    ArrayList<Supplier> selectSupplierByPerson(String person);
+
+    ArrayList<Supplier> selectAllSupplier();
 
     void modifySupplier(Supplier supplier);
 

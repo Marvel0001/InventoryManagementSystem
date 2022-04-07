@@ -6,27 +6,38 @@ public class Good {
     private int id;
     private String name;
     private String type;
-    private float value;
+    private Float value=-1f;
+    private String supplier;
+    private String customer;
 
-    public Good(int id, String name, String type, float value) {
+    public Good(int id, String name, String type, Float value, String supplier, String customer) {
         this.name = name;
         this.type = type;
         this.value = value;
         this.id = id;
+        this.supplier = supplier;
+        this.customer = customer;
     }
 
     public Good() {
     }
 
-    @Override
-    public String toString() {
-        JSONObject result =new JSONObject();
-        result.put("name", name);
-        result.put("type", type);
-        result.put("value", value);
-        result.put("id", id);
-        return result.toJSONString();
+    public String getSupplier() {
+        return supplier;
     }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
 
     public String getName() {
         return name;
@@ -58,5 +69,17 @@ public class Good {
 
     public void setId(int id){
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        JSONObject result =new JSONObject();
+        result.put("name", name);
+        result.put("type", type);
+        result.put("value", value);
+        result.put("id", id);
+        result.put("supplier", supplier);
+        result.put("customer", customer);
+        return result.toJSONString();
     }
 }

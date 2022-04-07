@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class StorehouseManagementService implements StorehouseManagement {
@@ -37,7 +36,7 @@ public class StorehouseManagementService implements StorehouseManagement {
 
     @Override
     public String selectStorehouseById(Integer storehouseId) {
-        List<Storehouse> storehouses = storehouseMapper.selectStorehouseById(storehouseId);
+        ArrayList<Storehouse> storehouses = storehouseMapper.selectStorehouseById(storehouseId);
         return selectCommon(storehouses);
     }
 
@@ -45,7 +44,7 @@ public class StorehouseManagementService implements StorehouseManagement {
     public String selectStorehouseByRegion(String region, Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Storehouse> storehouses = storehouseMapper.selectStorehouseByRegion(region);
+        ArrayList<Storehouse> storehouses = storehouseMapper.selectStorehouseByRegion(region);
         return selectCommon(storehouses);
     }
 
@@ -53,7 +52,7 @@ public class StorehouseManagementService implements StorehouseManagement {
     public String selectStorehouseEnabled(Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Storehouse> storehouses = storehouseMapper.selectStorehouseEnabled();
+        ArrayList<Storehouse> storehouses = storehouseMapper.selectStorehouseEnabled();
         return selectCommon(storehouses);
     }
 
@@ -61,7 +60,7 @@ public class StorehouseManagementService implements StorehouseManagement {
     public String selectStorehouseDisabled(Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Storehouse> storehouses = storehouseMapper.selectStorehouseDisabled();
+        ArrayList<Storehouse> storehouses = storehouseMapper.selectStorehouseDisabled();
         return selectCommon(storehouses);
     }
 
@@ -69,11 +68,11 @@ public class StorehouseManagementService implements StorehouseManagement {
     public String selectAllStorehouse(Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Storehouse> storehouses = storehouseMapper.selectAllStorehouse();
+        ArrayList<Storehouse> storehouses = storehouseMapper.selectAllStorehouse();
         return selectCommon(storehouses);
     }
 
-    public String selectCommon(List<Storehouse> storehouses){
+    public String selectCommon(ArrayList<Storehouse> storehouses){
         Response response = Response.generateResponse();
         int length = storehouses.size();
         if(length > 0){

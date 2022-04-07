@@ -1,7 +1,6 @@
 package com.ims.common.controller;
 
 import com.ims.common.service.Impl.StorehouseManagementService;
-import com.ims.common.util.Response;
 import com.ims.domain.Storehouse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
