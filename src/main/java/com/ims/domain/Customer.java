@@ -2,6 +2,9 @@ package com.ims.domain;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.ArrayList;
+
+
 public class Customer {
     private Integer id;
     private String company;
@@ -9,16 +12,36 @@ public class Customer {
     private String telephone;
     private String email;
     private String address;
+    private String pre_order_goods;
+    private String pre_order_goods_id;
 
-    public Customer(String company, String person, String telephone, String email, String address) {
+    public Customer(String company, String person, String telephone, String email, String address, String pre_order_goods, String pre_order_goods_id) {
         this.company = company;
         this.person = person;
         this.telephone = telephone;
         this.email = email;
         this.address = address;
+        this.pre_order_goods = pre_order_goods;
+        this.pre_order_goods_id = pre_order_goods_id;
     }
 
     public Customer() {
+    }
+
+    public String getPre_order_goods_id() {
+        return pre_order_goods_id;
+    }
+
+    public void setPre_order_goods_id(String pre_order_goods_id) {
+        this.pre_order_goods_id = pre_order_goods_id;
+    }
+
+    public String getPre_order_goods() {
+        return pre_order_goods;
+    }
+
+    public void setPre_order_goods(String pre_order_goods) {
+        this.pre_order_goods = pre_order_goods;
     }
 
     @Override
@@ -30,6 +53,7 @@ public class Customer {
         result.put("telephone", telephone);
         result.put("email", email);
         result.put("address", address);
+        result.put("pre_order_goods", pre_order_goods);
         return result.toJSONString();
     }
 

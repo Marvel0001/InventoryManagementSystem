@@ -10,7 +10,9 @@ import com.ims.domain.Good;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Service
 public class GoodManagementService implements GoodManagement {
@@ -96,6 +98,16 @@ public class GoodManagementService implements GoodManagement {
             PageHelper.offsetPage(offset, limit);
         ArrayList<Good> goods = goodMapper.selectAllGood();
         return selectCommon(goods);
+    }
+
+    @Override
+    public HashMap<Integer, String> selectAllName(){
+        ArrayList<Good> goods = goodMapper.selectAllName();
+        HashMap<Integer, String> goodMap = new HashMap<>();
+        for(Good good:goods){
+            goodMap.put(good.getId(), good.getName());
+        }
+        return goodMap;
     }
 
     @Override
