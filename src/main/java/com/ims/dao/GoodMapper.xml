@@ -40,6 +40,9 @@
     <select id="selectAllGood" resultMap="Good">
         select * from Good
     </select>
+    <select id="selectAllName" resultType="com.ims.domain.Good">
+        select id, name from Good
+    </select>
 
     <update id="modifyGood">
         update

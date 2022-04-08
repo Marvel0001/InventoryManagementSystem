@@ -3,6 +3,7 @@ package com.ims.common.service.Interface;
 import com.ims.domain.Good;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public interface GoodManagement {
@@ -21,6 +22,8 @@ public interface GoodManagement {
     String selectGoodLessThan(Float value, Integer offset, Integer limit);
 
     String selectAllGood(Integer offset, Integer limit);
+
+    HashMap<Integer, String> selectAllName();
 
     String selectCommon(ArrayList<Good> goods);
 

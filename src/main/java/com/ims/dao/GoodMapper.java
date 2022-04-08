@@ -23,6 +23,8 @@ public interface GoodMapper {
 
     ArrayList<Good> selectAllGood();
 
+    ArrayList<Good> selectAllName();
+
     void modifyGood(Good good);
 
     void deleteGood(Good good);
