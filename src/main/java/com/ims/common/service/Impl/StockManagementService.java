@@ -8,14 +8,13 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class StockManagementService implements StockManagement {
     @Autowired
     private StorageMapper storageMapper;
 
-    public String select_common(List<Storage> storages){
+    public String selectCommon(ArrayList<Storage> storages){
         Response result = Response.generateResponse();
         Integer length = storages.size();
         if(!length.equals(0)){
@@ -32,40 +31,42 @@ public class StockManagementService implements StockManagement {
         }
         return result.toJSONString();
     }
+
     @Override
     public String selectAll(Integer storehouseId, Integer limit, Integer offset) {
         if(limit > 0 && offset>=0)
             PageHelper.offsetPage(offset, limit);
-        List<Storage> storages = storageMapper.selectAll(storehouseId);
-        return select_common(storages);
+        ArrayList<Storage> storages = storageMapper.selectAll(storehouseId);
+        return selectCommon(storages);
     }
+
     @Override
     public String selectByGoodId(Integer goodId, Integer storehouseId, Integer limit, Integer offset){
         if(limit > 0 && offset >0)
             PageHelper.offsetPage(offset, limit);
-        List<Storage> storages = storageMapper.selectByGoodId(goodId, storehouseId);
-        return select_common(storages);
+        ArrayList<Storage> storages = storageMapper.selectByGoodId(goodId, storehouseId);
+        return selectCommon(storages);
     }
 
     @Override
     public String selectByGoodName(String goodName, Integer storehouseId, Integer limit, Integer offset){
         if(limit > 0 && offset >0)
             PageHelper.offsetPage(offset, limit);
-        List<Storage> storages = storageMapper.selectByGoodName(goodName, storehouseId);
-        return select_common(storages);
+        ArrayList<Storage> storages = storageMapper.selectByGoodName(goodName, storehouseId);
+        return selectCommon(storages);
     }
 
     @Override
     public String selectByGoodType(String goodType, Integer storehouseId, Integer limit, Integer offset){
         if(limit > 0 && offset >0)
             PageHelper.offsetPage(offset, limit);
-        List<Storage> storages = storageMapper.selectByGoodType(goodType, storehouseId);
-        return select_common(storages);
+        ArrayList<Storage> storages = storageMapper.selectByGoodType(goodType, storehouseId);
+        return selectCommon(storages);
     }
 
     @Override
     public String stockIn(Integer goodId, Integer storehouseId, Integer amount){
-        List<Storage> storages = storageMapper.selectByGoodId(goodId, storehouseId);
+        ArrayList<Storage> storages = storageMapper.selectByGoodId(goodId, storehouseId);
         Response response = Response.generateResponse();
         if(storages.size() > 0){
             Storage storage = storages.get(0);
@@ -91,7 +92,7 @@ public class StockManagementService implements StockManagement {
     }
 
     public String stockOut(Integer goodId, Integer storehouseId, Integer amount){
-        List<Storage> storages = storageMapper.selectByGoodId(goodId, storehouseId);
+        ArrayList<Storage> storages = storageMapper.selectByGoodId(goodId, storehouseId);
         Response response = Response.generateResponse();
         if(storages.size() > 0){
             Storage storage = storages.get(0);

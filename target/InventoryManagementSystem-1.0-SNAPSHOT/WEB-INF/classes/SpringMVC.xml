@@ -19,7 +19,13 @@
                         <property name="templateMode" value="HTML5"/>
                     </bean>
                 </property>
+                <property name="additionalDialects">
+                    <set>
+                        <bean class="at.pollux.thymeleaf.shiro.dialect.ShiroDialect"/>
+                    </set>
+                </property>
             </bean>
+
         </property>
     </bean>
     <mvc:default-servlet-handler/>

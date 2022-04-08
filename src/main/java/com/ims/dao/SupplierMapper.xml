@@ -55,4 +55,7 @@
     <select id="selectAllSupplier" resultMap="Supplier">
         select * from Supplier
     </select>
+    <select id="selectAllSupplierName" resultType="java.lang.String">
+        select person from Supplier
+    </select>
 </mapper>

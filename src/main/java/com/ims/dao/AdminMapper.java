@@ -4,19 +4,19 @@ import com.ims.domain.Admin;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Repository
 public interface AdminMapper {
     void addAdmin(Admin admin);
 
-    List<Admin> selectAdminById(@Param("adminId") Integer adminId);
+    ArrayList<Admin> selectAdminById(@Param("adminId") Integer adminId);
 
-    List<Admin> selectAdminByName(@Param("name")String name);
+    ArrayList<Admin> selectAdminByName(@Param("name")String name);
 
-    List<Admin> selectAdminByStorehouseId(@Param("storehouseId")Integer storehouseId);
+    ArrayList<Admin> selectAdminByStorehouseId(@Param("storehouseId")Integer storehouseId);
 
-    List<Admin> selectAllAdmin();
+    ArrayList<Admin> selectAllAdmin();
 
     void modifyAdmin(Admin admin);
 

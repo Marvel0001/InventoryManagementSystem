@@ -3,13 +3,16 @@ package com.ims.common.service.Impl;
 import com.github.pagehelper.PageHelper;
 import com.ims.common.service.Interface.GoodManagement;
 import com.ims.common.util.Response;
+import com.ims.dao.CustomerMapper;
 import com.ims.dao.GoodMapper;
+import com.ims.dao.SupplierMapper;
 import com.ims.domain.Good;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 @Service
 public class GoodManagementService implements GoodManagement {
@@ -17,10 +20,21 @@ public class GoodManagementService implements GoodManagement {
     @Autowired
     GoodMapper goodMapper;
 
+    @Autowired
+    CustomerMapper customerMapper;
+
+    @Autowired
+    SupplierMapper supplierMapper;
+
+    final String SELECT = "SELECT";
+    final String INSERT = "INSERT";
+    final String DELETE = "DELETE";
+    final String MODIFY = "MODIFY";
+
     @Override
     public String addGood(Good good) {
         Response response = Response.generateResponse();
-        if (good != null){
+        if (verification(good, response, INSERT)){
             try{
                 goodMapper.addGood(good);
                 response.success();
@@ -29,15 +43,12 @@ public class GoodManagementService implements GoodManagement {
                 response.exception("添加失败，请检查参数");
             }
         }
-        else{
-            response.exception("参数错误");
-        }
         return response.toJSONString();
     }
 
     @Override
     public String selectGoodById(Integer id) {
-        List<Good> goods = goodMapper.selectGoodById(id);
+        ArrayList<Good> goods = goodMapper.selectGoodById(id);
         return selectCommon(goods);
     }
 
@@ -45,7 +56,7 @@ public class GoodManagementService implements GoodManagement {
     public String selectGoodByName(String name, Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Good> goods = goodMapper.selectGoodByName(name);
+        ArrayList<Good> goods = goodMapper.selectGoodByName(name);
         return selectCommon(goods);
     }
 
@@ -53,7 +64,7 @@ public class GoodManagementService implements GoodManagement {
     public String selectGoodByType(String type, Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Good> goods = goodMapper.selectGoodByType(type);
+        ArrayList<Good> goods = goodMapper.selectGoodByType(type);
         return selectCommon(goods);
     }
 
@@ -61,7 +72,7 @@ public class GoodManagementService implements GoodManagement {
     public String selectGoodByValue(Float value, Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Good> goods = goodMapper.selectGoodByValue(value);
+        ArrayList<Good> goods = goodMapper.selectGoodByValue(value);
         return selectCommon(goods);
     }
 
@@ -69,7 +80,7 @@ public class GoodManagementService implements GoodManagement {
     public String selectGoodMoreThan(Float value, Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Good> goods = goodMapper.selectGoodMoreThan(value);
+        ArrayList<Good> goods = goodMapper.selectGoodMoreThan(value);
         return selectCommon(goods);
     }
 
@@ -77,7 +88,7 @@ public class GoodManagementService implements GoodManagement {
     public String selectGoodLessThan(Float value, Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Good> goods = goodMapper.selectGoodLessThan(value);
+        ArrayList<Good> goods = goodMapper.selectGoodLessThan(value);
         return selectCommon(goods);
     }
 
@@ -85,12 +96,22 @@ public class GoodManagementService implements GoodManagement {
     public String selectAllGood(Integer offset, Integer limit) {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
-        List<Good> goods = goodMapper.selectAllGood();
+        ArrayList<Good> goods = goodMapper.selectAllGood();
         return selectCommon(goods);
     }
 
     @Override
-    public String selectCommon(List<Good> goods) {
+    public HashMap<Integer, String> selectAllName(){
+        ArrayList<Good> goods = goodMapper.selectAllName();
+        HashMap<Integer, String> goodMap = new HashMap<>();
+        for(Good good:goods){
+            goodMap.put(good.getId(), good.getName());
+        }
+        return goodMap;
+    }
+
+    @Override
+    public String selectCommon(ArrayList<Good> goods) {
         Response response = Response.generateResponse();
         int length = goods.size();
         if(length > 0){
@@ -110,17 +131,16 @@ public class GoodManagementService implements GoodManagement {
 
     @Override
     public String modifyGood(Good good) {
+        System.out.println(good);
         Response response = Response.generateResponse();
-        if(good != null){
-            try{
+        if(verification(good, response, MODIFY)) {
+            try {
                 goodMapper.modifyGood(good);
                 response.success();
-            }catch (Exception e){
+            } catch (Exception e) {
+                e.printStackTrace();
                 response.exception("修改错误");
             }
-        }
-        else{
-            response.exception("参数不足");
         }
         return response.toJSONString();
     }
@@ -128,7 +148,7 @@ public class GoodManagementService implements GoodManagement {
     @Override
     public String deleteGood(Good good) {
         Response response = Response.generateResponse();
-        if(good != null){
+        if(verification(good, response, DELETE)){
             try{
                 goodMapper.deleteGood(good);
                 response.success();
@@ -136,9 +156,46 @@ public class GoodManagementService implements GoodManagement {
                 response.exception("删除错误错误");
             }
         }
-        else{
-            response.exception("参数不足");
-        }
         return response.toJSONString();
     }
+
+    private boolean verification(Good good, Response response, String operation){
+        if(good == null){
+            response.exception("参数不能为空");
+            return false;
+        }
+        switch (operation){
+            case SELECT:
+            case INSERT:
+                break;
+            case MODIFY:
+                if(good.getId() == 0){
+                    response.exception("id不能为空");
+                    return false;
+                }
+                if(good.getCustomer() != null){
+                    ArrayList<String> customers = customerMapper.selectAllCustomerName();
+                    if(!customers.contains(good.getCustomer())) {
+                        response.exception("不存在该顾客");
+                        return false;
+                    }
+                    customers.clear();
+                }
+                if(good.getSupplier() != null){
+                    ArrayList<String> suppliers = supplierMapper.selectAllSupplierName();
+                    if(!suppliers.contains(good.getSupplier())) {
+                        response.exception("不存在该供应商");
+                        return false;
+                    }
+                }
+                break;
+            case DELETE:
+                if(good.getId() == 0){
+                    response.exception("id不能为空");
+                    return false;
+                }
+        }
+        return true;
+    }
+
 }

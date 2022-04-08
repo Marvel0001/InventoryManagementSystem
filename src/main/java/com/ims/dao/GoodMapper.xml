@@ -9,9 +9,9 @@
         <result property="type" column="type"/>
         <result property="value" column="value"/>
     </resultMap>
-
+<!-- TODO 新增货物基础信息时对供应商以及顾客进行判断-->
     <insert id="addGood">
-        insert into Good (name, type, value) VALUES (#{name}, #{type}, #{value})
+        insert into Good (name, type, value, supplier, customer) VALUES (#{name}, #{type}, #{value}, #{supplier}, #{customer})
     </insert>
 
     <select id="selectGoodById" resultMap="Good">
@@ -40,6 +40,9 @@
     <select id="selectAllGood" resultMap="Good">
         select * from Good
     </select>
+    <select id="selectAllName" resultType="com.ims.domain.Good">
+        select id, name from Good
+    </select>
 
     <update id="modifyGood">
         update
@@ -51,8 +54,14 @@
             <if test="type != null">
                 type=#{type}
             </if>
-            <if test="value != null">
+            <if test="value != -1">
                 value=#{value}
+            </if>
+            <if test="supplier != null">
+                supplier=#{supplier}
+            </if>
+            <if test="customer != null">
+                customer=#{customer}
             </if>
         where
             id=#{id}
