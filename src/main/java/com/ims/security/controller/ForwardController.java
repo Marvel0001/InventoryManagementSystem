@@ -12,6 +12,6 @@ public class ForwardController {
     @RequestMapping("/")
     public String index(){
         System.out.println(stockManagementService.selectAll(1, 1, 1));
-        return "Hello";
+        return "login";
     }
 }

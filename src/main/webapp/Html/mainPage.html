@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:text-align="http://www.w3.org/1999/xhtml" />
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <script src="../../../js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="../css/mainPage.css">
+    <style>
+
+    </style>
+</head>
+<body>
+
+<!--顶部导航栏部分-->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" title="logoTitle" href="#">进销存管理系统</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li role="presentation">
+                    <a href="#">当前用户：<span class="badge">${sessionScope.userName}</span></a>
+                </li>
+                <li>
+                    <a href="login.html" id="signOut">
+                        <span class="glyphicon glyphicon-lock"></span>注销用户
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- 中间主体内容部分 -->
+<div class="pageContainer">
+    <!-- 左侧导航栏 -->
+    <div class="pageSidebar">
+        <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown"href="nav1.html" target="mainFrame" >库存管理<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="../pagecomponent/stockRecordManagement.html" target="mainFrame">库存查询</a>
+                    </li>
+                    <li>
+                        <a href="../pagecomponent/storageManagement.jsp" target="mainFrame">添加仓库信息</a>
+                    </li>
+                </ul>
+            </li>
+            <li role="presentation" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown"href="nav1.html" target="mainFrame">出入库管理<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="../pagecomponent/stock-inManagement.jsp" target="mainFrame">货物入库</a>
+                    </li>
+                    <li>
+                        <a href="../pagecomponent/stock-outManagement.jsp" target="mainFrame">货物出库</a>
+                    </li>
+                </ul>
+            </li>
+            <li role="presentation" class="dropdown">
+                <a hclass="dropdown-toggle" data-toggle="dropdown"href="nav1.html" target="mainFrame">人员管理<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="../pagecomponent/repositoryAdminManagement.jsp" target="mainFrame">仓库管理员管理</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- 开始 -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="nav4.html" target="mainFrame">
+                    基础数据<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="../pagecomponent/supplierManagement.jsp" target="mainFrame">供应商信息管理</a>
+                    </li>
+                    <li>
+                        <a href="../pagecomponent/customerManagement.jsp" target="mainFrame">客户信息管理</a>
+                    </li>
+                    <li>
+                        <a href="../pagecomponent/goodsManagement.jsp" target="mainFrame">货物信息管理</a>
+                    </li>
+                    <li>
+                        <a href="../pagecomponent/storageManagement.jsp" target="mainFrame">仓库信息管理</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- 结束 -->
+            <li role="presentation" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown"target="mainFrame">系统维护
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="../pagecomponent/accessRecordManagement.html" target="mainFrame">系统日志</a>
+                    </li>
+                    <li>
+                        <a href="nav2.html" target="mainFrame">登录日志</a>
+                    </li>
+                    <li>
+                            <a href="../pagecomponent/passwordModification.jsp" target="mainFrame">更改密码</a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+        </ul>
+    </div>
+
+    <!-- 左侧导航和正文内容的分隔线 -->
+    <div class="splitter"></div>
+    <!-- 正文内容部分 -->
+    <div class="pageContent">
+        <iframe src="../pagecomponent/welcomePage.jsp" id="mainFrame" name="mainFrame"
+                frameborder="0" width="100%" height="100%" frameBorder="0">
+        </iframe>
+    </div>
+
+</div>
+<!-- 底部页脚部分 -->
+<div class="footer">
+    <p class="text-center">
+        用户名:${sessionScope.userName}
+    </p>
+</div>
+
+<script type="text/javascript">
+    $(".nav li").click(function() {
+        $(".active").removeClass('active');
+        $(this).addClass("active");
+    });
+
+
+</script>
+</body>
+</html>
