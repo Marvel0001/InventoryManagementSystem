@@ -15,7 +15,7 @@ public class Admin {
 
     private Integer storehouseId;
 
-    private Integer role;
+    private String role;
 
     private String password;
 
@@ -29,13 +29,14 @@ public class Admin {
         result.put("address", address);
         result.put("storehouseId", storehouseId);
         result.put("role", role);
+        result.put("password", password);
         return result.toJSONString();
     }
 
     public Admin() {
     }
 
-    public Admin(String name, String sex, String telephone, String address, Integer storehouseId, Integer role, String password) {
+    public Admin(String name, String sex, String telephone, String address, Integer storehouseId, String role, String password) {
         this.name = name;
         this.sex = sex;
         this.telephone = telephone;
@@ -101,11 +102,11 @@ public class Admin {
         this.storehouseId = storehouseId;
     }
 
-    public Integer getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(String role) {
         this.role = role;
     }
 }

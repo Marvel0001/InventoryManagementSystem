@@ -1,6 +1,6 @@
 package com.ims.common.controller;
 
-import com.ims.common.service.Impl.SupplierManagementService;
+import com.ims.common.service.Interface.SupplierManagement;
 import com.ims.common.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class SupplierSelectController {
 
     @Autowired
-    SupplierManagementService supplierManagementService;
+    SupplierManagement supplierManagement;
 
     final String SELECT_ALL = "selectAll";
     final String SELECT_BY_ID = "selectById";
@@ -25,13 +25,13 @@ public class SupplierSelectController {
         try{
             switch (type){
                 case SELECT_ALL:
-                    return supplierManagementService.selectAllSupplier(offset, limit);
+                    return supplierManagement.selectAllSupplier(offset, limit);
                 case SELECT_BY_ID:
-                    return supplierManagementService.selectSupplierById(Integer.valueOf(param));
+                    return supplierManagement.selectSupplierById(Integer.valueOf(param));
                 case SELECT_BY_COMPANY:
-                    return supplierManagementService.selectSupplierByCompany(param, offset, limit);
+                    return supplierManagement.selectSupplierByCompany(param, offset, limit);
                 case SELECT_BY_PERSON:
-                    return supplierManagementService.selectSupplierByPerson(param, offset, limit);
+                    return supplierManagement.selectSupplierByPerson(param, offset, limit);
                 default:
                     return Response._default();
             }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ims.dao.ActionRecordMapper">
+    <resultMap id="actionRecord" type="com.ims.domain.ActionRecord">
+        <id property="id" column="id"/>
+        <result property="actionName" column="actionName"/>
+        <result property="time" column="time"/>
+        <result property="userId" column="userId"/>
+        <result property="username" column="username"/>
+    </resultMap>
+    <insert id="insertRecord">
+        insert into
+            Action_Record
+        set
+            username=#{username}, userId=#{userId}, actionName=#{actionName}, time=#{time}
+    </insert>
+
+    <select id="selectAllRecord" resultMap="actionRecord">
+        select * from Action_Record
+    </select>
+
+
+</mapper>

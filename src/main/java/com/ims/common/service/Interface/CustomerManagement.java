@@ -22,5 +22,4 @@ public interface CustomerManagement {
 
     String deleteCustomer(Customer customer);
 
-
 }

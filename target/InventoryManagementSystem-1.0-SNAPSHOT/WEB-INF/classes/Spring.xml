@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
     <context:property-placeholder location="classpath:DataBase.properties"/>
 
     <context:component-scan base-package="com.ims"/>
@@ -12,12 +13,14 @@
         <property name="authenticator" ref="authenticator"/>
         <property name="realm" ref="userRealm"/>
     </bean>
+
     <bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
         <property name="authenticationStrategy">
             <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"/>
         </property>
     </bean>
-    <bean id="userRealm" class="com.ims.security.realm.UserRealm"/>
+
+<!--    <bean id="userRealm" class="com.ims.security.realm.UserRealm"/>-->
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
@@ -29,8 +32,19 @@
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>
         <property name="successUrl" value="/mainPage"/>
-        <property name="unauthorizedUrl" value="/unauthorized.html"/>
+        <property name="unauthorizedUrl" value="/unauthorized"/>
+        <property name="filterChainDefinitionMap" ref="filterChain"/>
+        <property name="filters">
+            <util:map>
+                <entry key="roles" value-ref="anyOfRoles"/>
+            </util:map>
+        </property>
     </bean>
+    <bean id="anyOfRoles" class="com.ims.security.listener.AnyOfRoles"/>
+
+    <bean id="filterChain" factory-bean="filterChainBuilder" factory-method="builder"/>
+    <bean id="filterChainBuilder" class="com.ims.security.service.FilterChainBuilder"/>
+
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="driverClassName" value="${jdbc.DriverClass}"/>
@@ -51,4 +65,16 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.ims.dao"/>
     </bean>
+
+    <bean id="userOperation" class="com.ims.util.aop.UserOperationLogging"/>
+
+    <aop:aspectj-autoproxy/>
+
+    <aop:config>
+        <aop:pointcut id="userOperationPointcut" expression="execution(* com.ims.common.service.Impl.*.*(..)) and @annotation(userOperation)"/>
+        <aop:aspect id="userOperationLoggingAspect" ref="userOperation">
+            <aop:before method="logging" pointcut-ref="userOperationPointcut"/>
+        </aop:aspect>
+    </aop:config>
+
 </beans>

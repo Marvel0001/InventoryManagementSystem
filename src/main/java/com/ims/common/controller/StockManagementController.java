@@ -1,6 +1,6 @@
 package com.ims.common.controller;
 
-import com.ims.common.service.Impl.StockManagementService;
+import com.ims.common.service.Interface.StockManagement;
 import com.ims.common.util.Response;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -21,19 +21,19 @@ public class StockManagementController {
     final String SELECT_BY_GOOD_TYPE = "selectByGoodType";
 
     @Autowired
-    private StockManagementService stockManagementService;
+    private StockManagement stockManagement;
 
     public String _Select(String type, String param, Integer offset, Integer limit, Integer storehouseId){
         try {
             switch (type) {
                 case SELECT_ALL:
-                    return stockManagementService.selectAll(storehouseId, limit, offset);
+                    return stockManagement.selectAll(storehouseId, limit, offset);
                 case SELECT_BY_GOOD_ID:
-                    return stockManagementService.selectByGoodId(Integer.valueOf(param), storehouseId, limit, offset);
+                    return stockManagement.selectByGoodId(Integer.valueOf(param), storehouseId, limit, offset);
                 case SELECT_BY_GOOD_NAME:
-                    return stockManagementService.selectByGoodName(param, storehouseId, limit, offset);
+                    return stockManagement.selectByGoodName(param, storehouseId, limit, offset);
                 case SELECT_BY_GOOD_TYPE:
-                    return stockManagementService.selectByGoodType(param, storehouseId, limit, offset);
+                    return stockManagement.selectByGoodType(param, storehouseId, limit, offset);
                 default:
                     return Response._default();
             }
@@ -61,7 +61,7 @@ public class StockManagementController {
         if(!storehouseId.toString().equals(session.getAttribute("storehouseId"))){
             return Response._exception("禁止跨仓库管理");
         }
-        return stockManagementService.stockIn(goodId, storehouseId, amount);
+        return stockManagement.stockIn(goodId, storehouseId, amount);
     }
 
     @RequestMapping(value = "/StockOut", method = RequestMethod.POST)
@@ -72,7 +72,7 @@ public class StockManagementController {
         if(!storehouseId.toString().equals(session.getAttribute("storehouseId"))){
             return Response._exception("禁止跨仓库管理");
         }
-        return stockManagementService.stockOut(goodId, storehouseId, amount);
+        return stockManagement.stockOut(goodId, storehouseId, amount);
     }
 
 }

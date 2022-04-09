@@ -1,6 +1,6 @@
 package com.ims.common.controller;
 
-import com.ims.common.service.Impl.CustomerManagementService;
+import com.ims.common.service.Interface.CustomerManagement;
 import com.ims.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class CustomerManagementController {
     @Autowired
-    CustomerManagementService customerManagementService;
+    CustomerManagement customerManagement;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String addCustomer(Customer customer){
-        return customerManagementService.addCustomer(customer);
+        return customerManagement.addCustomer(customer);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public String modifyCustomer(Customer customer){
-        return customerManagementService.modifyCustomer(customer);
+        return customerManagement.modifyCustomer(customer);
     }
 
     @RequestMapping(value = "", method = RequestMethod.DELETE)
     public String deleteCustomer(Customer customer){
-        return customerManagementService.deleteCustomer(customer);
+        return customerManagement.deleteCustomer(customer);
     }
 }

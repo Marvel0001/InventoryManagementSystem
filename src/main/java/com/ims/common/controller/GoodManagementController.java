@@ -1,6 +1,6 @@
 package com.ims.common.controller;
 
-import com.ims.common.service.Impl.GoodManagementService;
+import com.ims.common.service.Interface.GoodManagement;
 import com.ims.domain.Good;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class GoodManagementController {
     @Autowired
-    GoodManagementService goodManagementService;
+    GoodManagement goodManagement;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String addGood(Good good){
-        return goodManagementService.addGood(good);
+        return goodManagement.addGood(good);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public String modifyGood(Good good){
-        return goodManagementService.modifyGood(good);
+        return goodManagement.modifyGood(good);
     }
 
     @RequestMapping(value = "", method = RequestMethod.DELETE)
     public String deleteGood(Good good){
-        return goodManagementService.deleteGood(good);
+        return goodManagement.deleteGood(good);
     }
 }

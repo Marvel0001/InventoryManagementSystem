@@ -1,7 +1,6 @@
 package com.ims.common.controller;
 
-import com.ims.common.service.Impl.SupplierManagementService;
-import com.ims.common.util.Response;
+import com.ims.common.service.Interface.SupplierManagement;
 import com.ims.domain.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,22 +13,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class SupplierManagementController {
     @Autowired
-    SupplierManagementService supplierManagementService;
+    SupplierManagement supplierManagement;
 
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String addSupplier(Supplier supplier){
-        return supplierManagementService.addSupplier(supplier);
+        return supplierManagement.addSupplier(supplier);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public String modifySupplier(Supplier supplier){
         System.out.println(supplier);
-        return supplierManagementService.modifySupplier(supplier);
+        return supplierManagement.modifySupplier(supplier);
     }
 
     @RequestMapping(value = "", method = RequestMethod.DELETE)
     public String deleteSupplier(Supplier supplier){
-        return supplierManagementService.deleteSupplier(supplier);
+        return supplierManagement.deleteSupplier(supplier);
     }
 }

@@ -9,4 +9,7 @@ public class test {
     public String mainPage(){
         return "mainPage";
     }
+
+    @RequestMapping("unauthorized")
+    public String unauthorized(){ return "unauthorized";}
 }

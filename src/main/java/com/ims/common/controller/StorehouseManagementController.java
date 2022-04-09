@@ -1,6 +1,6 @@
 package com.ims.common.controller;
 
-import com.ims.common.service.Impl.StorehouseManagementService;
+import com.ims.common.service.Interface.StorehouseManagement;
 import com.ims.domain.Storehouse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class StorehouseManagementController {
     @Autowired
-    StorehouseManagementService storehouseManagementService;
+    StorehouseManagement storehouseManagement;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String addStorehouse(Storehouse storehouse){
-        return storehouseManagementService.addStorehouse(storehouse);
+        return storehouseManagement.addStorehouse(storehouse);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public String modifyStorehouse(Storehouse storehouse){
-        return storehouseManagementService.modifyStorehouse(storehouse);
+        return storehouseManagement.modifyStorehouse(storehouse);
     }
 
     @RequestMapping(value = "", method = RequestMethod.DELETE)
     public String deleteStorehouse(Storehouse storehouse){
-        return storehouseManagementService.deleteStorehouse(storehouse);
+        return storehouseManagement.deleteStorehouse(storehouse);
     }
 }

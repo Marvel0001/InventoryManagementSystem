@@ -14,9 +14,9 @@
     </resultMap>
     <insert id="addCustomer">
         insert into
-            Customer (company, person, telephone, email, address, pre_order_goods_id)
+            Customer (company, person, telephone, email, address)
         VALUES
-               (#{company}, #{person}, ${telephone}, #{email}, #{address}, #{pre_order_goods_id})
+               (#{company}, #{person}, ${telephone}, #{email}, #{address})
     </insert>
     <update id="modifyCustomer">
         update

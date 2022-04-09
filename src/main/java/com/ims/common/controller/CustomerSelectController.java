@@ -1,6 +1,6 @@
 package com.ims.common.controller;
 
-import com.ims.common.service.Impl.CustomerManagementService;
+import com.ims.common.service.Interface.CustomerManagement;
 import com.ims.common.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class CustomerSelectController {
     @Autowired
-    CustomerManagementService customerManagementService;
+    CustomerManagement customerManagement;
 
     final String SELECT_ALL = "selectAll";
     final String SELECT_BY_ID = "selectById";
@@ -25,13 +25,13 @@ public class CustomerSelectController {
         try{
             switch (type){
                 case SELECT_ALL:
-                    return customerManagementService.selectAllCustomer(offset, limit);
+                    return customerManagement.selectAllCustomer(offset, limit);
                 case SELECT_BY_ID:
-                    return customerManagementService.selectCustomerById(Integer.valueOf(param));
+                    return customerManagement.selectCustomerById(Integer.valueOf(param));
                 case SELECT_BY_COMPANY:
-                    return customerManagementService.selectCustomerByCompany(param, offset, limit);
+                    return customerManagement.selectCustomerByCompany(param, offset, limit);
                 case SELECT_BY_PERSON:
-                    return customerManagementService.selectCustomerByPerson(param, offset, limit);
+                    return customerManagement.selectCustomerByPerson(param, offset, limit);
                 default:
                     return Response._default();
             }

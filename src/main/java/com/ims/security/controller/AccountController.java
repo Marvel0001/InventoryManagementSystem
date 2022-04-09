@@ -1,12 +1,14 @@
 package com.ims.security.controller;
 
-import com.ims.common.service.Impl.PeopleManagementService;
+import com.ims.common.service.Interface.PeopleManagement;
 import com.ims.common.util.Response;
 import com.ims.domain.Admin;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AccountController {
 
     @Autowired
-    PeopleManagementService peopleManagementService;
+    @Lazy
+    PeopleManagement peopleManagement;
 
     @RequestMapping(value = "/Login", method = RequestMethod.POST)
     public String login(String username, String password){
@@ -27,20 +30,23 @@ public class AccountController {
         System.out.println(username + "  " + password);
         Admin admin;
         try{
-            admin = peopleManagementService._selectByUsername(username);
-        }catch (Exception e){
+            admin = peopleManagement._selectByUsername(username);
+        }catch (IndexOutOfBoundsException e){
             e.printStackTrace();
             response.exception("用户名错误");
             return response.toJSONString();
         }
-        System.out.println(admin);
+
         if(subject != null){
             if(!subject.isAuthenticated()) {
                 UsernamePasswordToken token = new UsernamePasswordToken(username, password);
                 try {
                     subject.login(token);
                     response.success();
-                    subject.getSession().setAttribute("storehouseId", admin.getStorehouseId().toString());
+                    Session session = subject.getSession();
+                    session.setAttribute("storehouseId", admin.getStorehouseId().toString());
+                    session.setAttribute("userId", admin.getId());
+                    session.setAttribute("userName", admin.getName());
                 } catch (Exception e) {
                     e.printStackTrace();
                     response.exception("账号或密码错误");

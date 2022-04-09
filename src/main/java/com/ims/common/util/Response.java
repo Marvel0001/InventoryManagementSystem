@@ -57,6 +57,4 @@ public class Response {
         return result.toJSONString();
     }
 
-
-
 }

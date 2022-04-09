@@ -1,6 +1,7 @@
 package com.ims.security.realm;
 
-import com.ims.common.service.Impl.PeopleManagementService;
+import com.ims.common.service.Interface.GoodManagement;
+import com.ims.common.service.Interface.PeopleManagement;
 import com.ims.domain.Admin;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -8,17 +9,25 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-
+@Service(value = "userRealm")
 public class UserRealm extends AuthorizingRealm {
     @Autowired
-    private PeopleManagementService peopleManagementService;
+    @Lazy
+    private PeopleManagement peopleManagement;
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        HashSet<String> set = new HashSet<>();
-        set.add("admin");
-        return new SimpleAuthorizationInfo(set);
+        System.out.println("userRealm:  " + peopleManagement);
+        peopleManagement.selectAllAdmin(0, 0);
+        HashSet<String> role = new HashSet<>();
+        Admin admin = peopleManagement._selectByUsername(principalCollection.getPrimaryPrincipal().toString());
+        if(admin != null)
+            role.add(admin.getRole());
+        return new SimpleAuthorizationInfo(role);
     }
 
     @Override
@@ -26,7 +35,7 @@ public class UserRealm extends AuthorizingRealm {
         String name = getName();
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
         String principal = usernamePasswordToken.getUsername();
-        Admin admin = peopleManagementService._selectByUsername(principal);
+        Admin admin = peopleManagement._selectByUsername(principal);
         return new SimpleAuthenticationInfo(principal, admin.getPassword(), name);
     }
 }

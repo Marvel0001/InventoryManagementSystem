@@ -1,7 +1,8 @@
 package com.ims.common.controller;
 
-import com.ims.common.service.Impl.GoodManagementService;
+import com.ims.common.service.Interface.GoodManagement;
 import com.ims.common.util.Response;
+import com.ims.util.aop.UserOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class GoodSelectController {
     @Autowired
-    GoodManagementService goodManagementService;
+    GoodManagement goodManagement;
 
     final String SELECT_ALL = "selectAll";
     final String SELECT_BY_ID = "selectById";
@@ -24,23 +25,25 @@ public class GoodSelectController {
     final String SELECT_BY_LESS = "selectByLess";
 
     @RequestMapping(value = "", method = RequestMethod.GET)
+    @UserOperation(value = "selectGood")
     public String selectGood(String type, String param, Integer offset, Integer limit){
+        System.out.println("goodSelect:  " + goodManagement);
         try {
             switch (type) {
                 case SELECT_ALL:
-                    return goodManagementService.selectAllGood(offset, limit);
+                    return goodManagement.selectAllGood(offset, limit);
                 case SELECT_BY_ID:
-                    return goodManagementService.selectGoodById(Integer.valueOf(param));
+                    return goodManagement.selectGoodById(Integer.valueOf(param));
                 case SELECT_BY_LESS:
-                    return goodManagementService.selectGoodLessThan(Float.valueOf(param), offset, limit);
+                    return goodManagement.selectGoodLessThan(Float.valueOf(param), offset, limit);
                 case SELECT_BY_MORE:
-                    return goodManagementService.selectGoodMoreThan(Float.valueOf(param), offset, limit);
+                    return goodManagement.selectGoodMoreThan(Float.valueOf(param), offset, limit);
                 case SELECT_BY_NAME:
-                    return goodManagementService.selectGoodByName(param, offset, limit);
+                    return goodManagement.selectGoodByName(param, offset, limit);
                 case SELECT_BY_TYPE:
-                    return goodManagementService.selectGoodByType(param, offset, limit);
+                    return goodManagement.selectGoodByType(param, offset, limit);
                 case SELECT_BY_VALUE:
-                    return goodManagementService.selectGoodByValue(Float.valueOf(param), offset, limit);
+                    return goodManagement.selectGoodByValue(Float.valueOf(param), offset, limit);
                 default:
                     return Response._default();
             }

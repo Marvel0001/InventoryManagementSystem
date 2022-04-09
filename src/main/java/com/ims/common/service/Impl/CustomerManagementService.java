@@ -3,10 +3,12 @@ package com.ims.common.service.Impl;
 import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageHelper;
 import com.ims.common.service.Interface.CustomerManagement;
+import com.ims.common.service.Interface.GoodManagement;
 import com.ims.common.util.Response;
 import com.ims.dao.CustomerMapper;
 import com.ims.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,7 +26,8 @@ public class CustomerManagementService implements CustomerManagement {
     CustomerMapper customerMapper;
 
     @Autowired
-    GoodManagementService goodManagementService;
+    @Lazy
+    GoodManagement goodManagement;
 
     HashMap<Integer, String> goodMap;
 
@@ -45,13 +48,14 @@ public class CustomerManagementService implements CustomerManagement {
 
     @Override
     public String selectCommon(ArrayList<Customer> customers) {
+        System.out.println("customer:    " + goodManagement);
         Response response = Response.generateResponse();
         int length = customers.size();
         if(length > 0){
             ArrayList<String> data = new ArrayList<>();
             for(Customer customer: customers) {
                 if(customer.getPre_order_goods_id() != null) {
-                    goodMap = goodManagementService.selectAllName();
+                    goodMap = goodManagement.selectAllName();
                     JSONArray tempJsonArray = new JSONArray();
                     ArrayList<Integer> tempArrayList = new ArrayList<>();
                     for (String id : customer.getPre_order_goods_id().split(","))
@@ -161,7 +165,7 @@ public class CustomerManagementService implements CustomerManagement {
 
     private boolean verify_goods_id(Customer customer, Response response) {
         if(customer.getPre_order_goods_id() != null){
-            goodMap = goodManagementService.selectAllName();
+            goodMap = goodManagement.selectAllName();
             ArrayList<Integer> expired_goods = new ArrayList<>();
             for(String id: customer.getPre_order_goods_id().split(",")){
                 if(!goodMap.containsKey(Integer.valueOf(id))) {

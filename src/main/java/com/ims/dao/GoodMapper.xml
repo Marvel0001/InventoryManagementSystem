@@ -9,9 +9,8 @@
         <result property="type" column="type"/>
         <result property="value" column="value"/>
     </resultMap>
-<!-- TODO 新增货物基础信息时对供应商以及顾客进行判断-->
     <insert id="addGood">
-        insert into Good (name, type, value, supplier, customer) VALUES (#{name}, #{type}, #{value}, #{supplier}, #{customer})
+        insert into Good (name, type, value, supplier) VALUES (#{name}, #{type}, #{value}, #{supplier})
     </insert>
 
     <select id="selectGoodById" resultMap="Good">

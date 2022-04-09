@@ -5,6 +5,7 @@ import com.ims.common.service.Interface.PeopleManagement;
 import com.ims.common.util.Response;
 import com.ims.dao.AdminMapper;
 import com.ims.domain.Admin;
+import com.ims.util.aop.UserOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +56,7 @@ public class PeopleManagementService implements PeopleManagement {
     }
 
     @Override
+    @UserOperation(value = "selectAllAdmin")
     public String selectAllAdmin(Integer offset, Integer limit){
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
@@ -128,6 +130,7 @@ public class PeopleManagementService implements PeopleManagement {
     }
 
     @Override
+    @UserOperation(value = "selectByUsername")
     public Admin _selectByUsername(String name){
         return adminMapper.selectAdminByName(name).get(0);
     }
