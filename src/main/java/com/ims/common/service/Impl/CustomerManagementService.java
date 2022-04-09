@@ -9,12 +9,14 @@ import com.ims.dao.CustomerMapper;
 import com.ims.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
+@Scope
 public class CustomerManagementService implements CustomerManagement {
 
     final String SELECT = "SELECT";

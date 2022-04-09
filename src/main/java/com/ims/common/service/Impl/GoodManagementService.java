@@ -8,12 +8,14 @@ import com.ims.dao.GoodMapper;
 import com.ims.dao.SupplierMapper;
 import com.ims.domain.Good;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
+//@Scope
 public class GoodManagementService implements GoodManagement {
 
     @Autowired

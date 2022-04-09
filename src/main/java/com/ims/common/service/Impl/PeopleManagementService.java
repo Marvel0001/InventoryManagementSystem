@@ -7,11 +7,13 @@ import com.ims.dao.AdminMapper;
 import com.ims.domain.Admin;
 import com.ims.util.aop.UserOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@Scope
 public class PeopleManagementService implements PeopleManagement {
     @Autowired
     AdminMapper adminMapper;

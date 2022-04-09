@@ -4,12 +4,14 @@ import com.ims.common.util.Response;
 import com.ims.dao.StorageMapper;
 import com.ims.domain.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 
 import java.util.ArrayList;
 
 @Service
+@Scope
 public class StockManagementService implements StockManagement {
     @Autowired
     private StorageMapper storageMapper;

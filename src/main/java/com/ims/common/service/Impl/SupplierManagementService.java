@@ -6,11 +6,13 @@ import com.ims.common.util.Response;
 import com.ims.dao.SupplierMapper;
 import com.ims.domain.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@Scope
 public class SupplierManagementService implements SupplierManagement {
     @Autowired
     SupplierMapper supplierMapper;
