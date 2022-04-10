@@ -23,7 +23,13 @@ public class StockManagementController {
     @Autowired
     private StockManagement stockManagement;
 
-    public String _Select(String type, String param, Integer offset, Integer limit, Integer storehouseId){
+    @RequestMapping(value = "/Select", method = RequestMethod.POST)
+    public String Select(String type, String param, Integer offset, Integer limit, Integer storehouseId){
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        if(!storehouseId.toString().equals(session.getAttribute("storehouseId"))){
+            return Response._exception("禁止跨仓库管理");
+        }
         try {
             switch (type) {
                 case SELECT_ALL:
@@ -40,17 +46,6 @@ public class StockManagementController {
         }catch (NumberFormatException e){
             return Response._exception("参数格式错误");
         }
-    }
-
-    @RequestMapping(value = "/Select", method = RequestMethod.POST)
-    public String Select(String type, String param, Integer offset, Integer limit, Integer storehouseId){
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-
-        if(!storehouseId.toString().equals(session.getAttribute("storehouseId"))){
-            return Response._exception("禁止跨仓库管理");
-        }
-        return _Select(type, param, offset, limit, storehouseId);
     }
 
     @RequestMapping(value = "/StockIn", method = RequestMethod.POST)

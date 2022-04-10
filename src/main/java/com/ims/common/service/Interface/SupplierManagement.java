@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public interface SupplierManagement {
     String addSupplier(Supplier Supplier);
 
-    String selectCommon(ArrayList<Supplier> Suppliers);
+    String _selectCommon(ArrayList<Supplier> Suppliers);
 
     String selectSupplierById(Integer id);
 

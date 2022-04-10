@@ -8,15 +8,12 @@ import com.ims.common.util.Response;
 import com.ims.dao.CustomerMapper;
 import com.ims.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
-@Scope
 public class CustomerManagementService implements CustomerManagement {
 
     final String SELECT = "SELECT";
@@ -28,7 +25,6 @@ public class CustomerManagementService implements CustomerManagement {
     CustomerMapper customerMapper;
 
     @Autowired
-    @Lazy
     GoodManagement goodManagement;
 
     HashMap<Integer, String> goodMap;
@@ -36,7 +32,7 @@ public class CustomerManagementService implements CustomerManagement {
     @Override
     public String addCustomer(Customer customer) {
         Response response = Response.generateResponse();
-        if(verification(customer, response, SELECT)){
+        if(_verification(customer, response, SELECT)){
             try{
                 customerMapper.addCustomer(customer);
                 response.success();
@@ -49,15 +45,14 @@ public class CustomerManagementService implements CustomerManagement {
     }
 
     @Override
-    public String selectCommon(ArrayList<Customer> customers) {
-        System.out.println("customer:    " + goodManagement);
+    public String _selectCommon(ArrayList<Customer> customers) {
         Response response = Response.generateResponse();
         int length = customers.size();
         if(length > 0){
             ArrayList<String> data = new ArrayList<>();
             for(Customer customer: customers) {
                 if(customer.getPre_order_goods_id() != null) {
-                    goodMap = goodManagement.selectAllName();
+                    goodMap = goodManagement._selectAllName();
                     JSONArray tempJsonArray = new JSONArray();
                     ArrayList<Integer> tempArrayList = new ArrayList<>();
                     for (String id : customer.getPre_order_goods_id().split(","))
@@ -82,7 +77,7 @@ public class CustomerManagementService implements CustomerManagement {
     @Override
     public String selectCustomerById(Integer id) {
         ArrayList<Customer> customers = customerMapper.selectCustomerById(id);
-        return selectCommon(customers);
+        return _selectCommon(customers);
     }
 
     @Override
@@ -90,7 +85,7 @@ public class CustomerManagementService implements CustomerManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Customer> customers = customerMapper.selectCustomerByCompany(company);
-        return selectCommon(customers);
+        return _selectCommon(customers);
     }
 
     @Override
@@ -98,7 +93,7 @@ public class CustomerManagementService implements CustomerManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Customer> customers = customerMapper.selectCustomerByPerson(person);
-        return selectCommon(customers);
+        return _selectCommon(customers);
     }
 
     @Override
@@ -106,13 +101,13 @@ public class CustomerManagementService implements CustomerManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Customer> customers = customerMapper.selectAllCustomer();
-        return selectCommon(customers);
+        return _selectCommon(customers);
     }
 
     @Override
     public String modifyCustomer(Customer customer) {
         Response response = Response.generateResponse();
-        if(verification(customer, response, MODIFY)){
+        if(_verification(customer, response, MODIFY)){
             try{
                 customerMapper.modifyCustomer(customer);
                 response.success();
@@ -127,7 +122,7 @@ public class CustomerManagementService implements CustomerManagement {
     @Override
     public String deleteCustomer(Customer customer) {
         Response response = Response.generateResponse();
-        if(verification(customer, response, DELETE)){
+        if(_verification(customer, response, DELETE)){
             try{
                 customerMapper.deleteCustomer(customer);
                 response.success();
@@ -139,14 +134,14 @@ public class CustomerManagementService implements CustomerManagement {
         return response.toJSONString();
     }
 
-    private boolean verification(Customer customer, Response response, String operation){
+    private boolean _verification(Customer customer, Response response, String operation){
         if(customer == null){
             response.exception("参数不足");
             return false;
         }
         switch (operation){
             case INSERT:
-                if (verify_goods_id(customer, response)) return false;
+                if (_verify_goods_id(customer, response)) return false;
                 break;
             case DELETE:
                 if(customer.getId() == 0){
@@ -159,15 +154,15 @@ public class CustomerManagementService implements CustomerManagement {
                     response.exception("id不能为空");
                     return false;
                 }
-                if (verify_goods_id(customer, response)) return false;
+                if (_verify_goods_id(customer, response)) return false;
                 break;
         }
         return true;
     }
 
-    private boolean verify_goods_id(Customer customer, Response response) {
+    private boolean _verify_goods_id(Customer customer, Response response) {
         if(customer.getPre_order_goods_id() != null){
-            goodMap = goodManagement.selectAllName();
+            goodMap = goodManagement._selectAllName();
             ArrayList<Integer> expired_goods = new ArrayList<>();
             for(String id: customer.getPre_order_goods_id().split(",")){
                 if(!goodMap.containsKey(Integer.valueOf(id))) {

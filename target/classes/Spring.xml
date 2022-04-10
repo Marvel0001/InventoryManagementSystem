@@ -3,7 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
     <context:property-placeholder location="classpath:DataBase.properties"/>
 
     <context:component-scan base-package="com.ims"/>
@@ -32,7 +33,7 @@
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>
         <property name="successUrl" value="/mainPage"/>
-        <property name="unauthorizedUrl" value="/unauthorized"/>
+        <property name="unauthorizedUrl" value="/Page/errorPage/unauthorized.html"/>
         <property name="filterChainDefinitionMap" ref="filterChain"/>
         <property name="filters">
             <util:map>
@@ -62,6 +63,19 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <tx:method name="*"/>
+            <tx:method name="select*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:advisor advice-ref="txAdvice"
+                     pointcut="execution(* com.ims.common.service.*.*(..))" />
+    </aop:config>
+
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.ims.dao"/>
     </bean>
@@ -71,7 +85,7 @@
     <aop:aspectj-autoproxy/>
 
     <aop:config>
-        <aop:pointcut id="userOperationPointcut" expression="execution(* com.ims.common.service.Impl.*.*(..)) and @annotation(userOperation)"/>
+        <aop:pointcut id="userOperationPointcut" expression="execution(* com.ims.common.service.Impl.*.*(..))"/>
         <aop:aspect id="userOperationLoggingAspect" ref="userOperation">
             <aop:before method="logging" pointcut-ref="userOperationPointcut"/>
         </aop:aspect>

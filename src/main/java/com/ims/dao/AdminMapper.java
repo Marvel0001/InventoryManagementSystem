@@ -3,6 +3,7 @@ package com.ims.dao;
 import com.ims.domain.Admin;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ public interface AdminMapper {
 
     ArrayList<Admin> selectAllAdmin();
 
+    @Transactional
     void modifyAdmin(Admin admin);
 
     void deleteAdmin(Admin admin);

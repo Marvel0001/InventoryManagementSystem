@@ -12,12 +12,14 @@
         <result property="storehouseId" column="storehouseId"/>
         <result property="role" column="role"/>
     </resultMap>
+
     <insert id="addAdmin">
         insert into
             Admin (name, sex, telephone, address, storehouseId, role, password)
         VALUES
             (#{name}, #{sex}, #{telephone}, #{address}, #{storehouseId}, #{role}, #{password})
     </insert>
+
     <update id="modifyAdmin">
         update
             Admin
@@ -40,20 +42,30 @@
              <if test="role != null">
                  role=#{role}
              </if>
-        where id=#{id}
+             <if test="password != null">
+                password=#{password}
+            </if>
+        <where>
+            id=#{id}
+        </where>
     </update>
+
     <delete id="deleteAdmin">
         delete from Admin where id=#{id}
     </delete>
+
     <select id="selectAdminById" resultType="com.ims.domain.Admin">
         select * from Admin where id=#{adminId}
     </select>
+
     <select id="selectAllAdmin" resultType="com.ims.domain.Admin">
         select * from Admin
     </select>
+
     <select id="selectAdminByName" resultType="com.ims.domain.Admin">
         select * from Admin where name LIKE concat('%', concat(#{name}, '%'))
     </select>
+
     <select id="selectAdminByStorehouseId" resultType="com.ims.domain.Admin">
         select * from Admin where storehouseId=#{storehouseId}
     </select>

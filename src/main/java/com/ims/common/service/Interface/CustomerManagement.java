@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public interface CustomerManagement {
     String addCustomer(Customer customer);
 
-    String selectCommon(ArrayList<Customer> customers);
+    String _selectCommon(ArrayList<Customer> customers);
 
     String selectCustomerById(Integer id);
 

@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/SupplierSelect")
+@ResponseBody
 public class SupplierSelectController {
 
     @Autowired
@@ -18,7 +20,6 @@ public class SupplierSelectController {
     final String SELECT_BY_ID = "selectById";
     final String SELECT_BY_COMPANY = "selectByCompany";
     final String SELECT_BY_PERSON = "selectByPerson";
-
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String selectSupplier(String type, String param, Integer offset, Integer limit){

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 
 public class Response {
 
-    //TODO 将所有报错信息写为字符常量
     JSONObject result;
     public Response(){
         result = new JSONObject();

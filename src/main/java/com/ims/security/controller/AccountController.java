@@ -27,7 +27,6 @@ public class AccountController {
     public String login(String username, String password){
         Subject subject = SecurityUtils.getSubject();
         Response response = Response.generateResponse();
-        System.out.println(username + "  " + password);
         Admin admin;
         try{
             admin = peopleManagement._selectByUsername(username);
@@ -36,7 +35,6 @@ public class AccountController {
             response.exception("用户名错误");
             return response.toJSONString();
         }
-
         if(subject != null){
             if(!subject.isAuthenticated()) {
                 UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -44,9 +42,10 @@ public class AccountController {
                     subject.login(token);
                     response.success();
                     Session session = subject.getSession();
-                    session.setAttribute("storehouseId", admin.getStorehouseId().toString());
+                    session.setAttribute("storehouseId", admin.getStorehouseId());
                     session.setAttribute("userId", admin.getId());
-                    session.setAttribute("userName", admin.getName());
+                    session.setAttribute("username", admin.getName());
+                    session.setAttribute("password", admin.getPassword());
                 } catch (Exception e) {
                     e.printStackTrace();
                     response.exception("账号或密码错误");

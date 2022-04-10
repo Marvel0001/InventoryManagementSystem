@@ -8,14 +8,12 @@ import com.ims.dao.GoodMapper;
 import com.ims.dao.SupplierMapper;
 import com.ims.domain.Good;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
-//@Scope
 public class GoodManagementService implements GoodManagement {
 
     @Autowired
@@ -35,7 +33,7 @@ public class GoodManagementService implements GoodManagement {
     @Override
     public String addGood(Good good) {
         Response response = Response.generateResponse();
-        if (verification(good, response, INSERT)){
+        if (_verification(good, response, INSERT)){
             try{
                 goodMapper.addGood(good);
                 response.success();
@@ -50,7 +48,7 @@ public class GoodManagementService implements GoodManagement {
     @Override
     public String selectGoodById(Integer id) {
         ArrayList<Good> goods = goodMapper.selectGoodById(id);
-        return selectCommon(goods);
+        return _selectCommon(goods);
     }
 
     @Override
@@ -58,7 +56,7 @@ public class GoodManagementService implements GoodManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Good> goods = goodMapper.selectGoodByName(name);
-        return selectCommon(goods);
+        return _selectCommon(goods);
     }
 
     @Override
@@ -66,7 +64,7 @@ public class GoodManagementService implements GoodManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Good> goods = goodMapper.selectGoodByType(type);
-        return selectCommon(goods);
+        return _selectCommon(goods);
     }
 
     @Override
@@ -74,7 +72,7 @@ public class GoodManagementService implements GoodManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Good> goods = goodMapper.selectGoodByValue(value);
-        return selectCommon(goods);
+        return _selectCommon(goods);
     }
 
     @Override
@@ -82,7 +80,7 @@ public class GoodManagementService implements GoodManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Good> goods = goodMapper.selectGoodMoreThan(value);
-        return selectCommon(goods);
+        return _selectCommon(goods);
     }
 
     @Override
@@ -90,7 +88,7 @@ public class GoodManagementService implements GoodManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Good> goods = goodMapper.selectGoodLessThan(value);
-        return selectCommon(goods);
+        return _selectCommon(goods);
     }
 
     @Override
@@ -98,11 +96,11 @@ public class GoodManagementService implements GoodManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Good> goods = goodMapper.selectAllGood();
-        return selectCommon(goods);
+        return _selectCommon(goods);
     }
 
     @Override
-    public HashMap<Integer, String> selectAllName(){
+    public HashMap<Integer, String> _selectAllName(){
         ArrayList<Good> goods = goodMapper.selectAllName();
         HashMap<Integer, String> goodMap = new HashMap<>();
         for(Good good:goods){
@@ -112,7 +110,7 @@ public class GoodManagementService implements GoodManagement {
     }
 
     @Override
-    public String selectCommon(ArrayList<Good> goods) {
+    public String _selectCommon(ArrayList<Good> goods) {
         Response response = Response.generateResponse();
         int length = goods.size();
         if(length > 0){
@@ -134,7 +132,7 @@ public class GoodManagementService implements GoodManagement {
     public String modifyGood(Good good) {
         System.out.println(good);
         Response response = Response.generateResponse();
-        if(verification(good, response, MODIFY)) {
+        if(_verification(good, response, MODIFY)) {
             try {
                 goodMapper.modifyGood(good);
                 response.success();
@@ -149,7 +147,7 @@ public class GoodManagementService implements GoodManagement {
     @Override
     public String deleteGood(Good good) {
         Response response = Response.generateResponse();
-        if(verification(good, response, DELETE)){
+        if(_verification(good, response, DELETE)){
             try{
                 goodMapper.deleteGood(good);
                 response.success();
@@ -160,7 +158,7 @@ public class GoodManagementService implements GoodManagement {
         return response.toJSONString();
     }
 
-    private boolean verification(Good good, Response response, String operation){
+    private boolean _verification(Good good, Response response, String operation){
         if(good == null){
             response.exception("参数不能为空");
             return false;
@@ -198,5 +196,4 @@ public class GoodManagementService implements GoodManagement {
         }
         return true;
     }
-
 }

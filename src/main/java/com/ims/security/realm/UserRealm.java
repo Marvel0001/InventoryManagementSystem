@@ -9,8 +9,6 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -19,14 +17,9 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private PeopleManagement peopleManagement;
 
-    @Autowired
-    private GoodManagement goodManagement;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("userRealm:  " + peopleManagement);
-        System.out.println("userRealm:  " + goodManagement);
-        peopleManagement.selectAllAdmin(0, 0);
         HashSet<String> role = new HashSet<>();
         Admin admin = peopleManagement._selectByUsername(principalCollection.getPrimaryPrincipal().toString());
         if(admin != null)

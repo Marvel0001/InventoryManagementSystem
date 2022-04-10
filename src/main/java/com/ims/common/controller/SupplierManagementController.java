@@ -15,7 +15,6 @@ public class SupplierManagementController {
     @Autowired
     SupplierManagement supplierManagement;
 
-
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String addSupplier(Supplier supplier){
         return supplierManagement.addSupplier(supplier);

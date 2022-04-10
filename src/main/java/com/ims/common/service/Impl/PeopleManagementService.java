@@ -4,19 +4,21 @@ import com.github.pagehelper.PageHelper;
 import com.ims.common.service.Interface.PeopleManagement;
 import com.ims.common.util.Response;
 import com.ims.dao.AdminMapper;
+import com.ims.dao.StorehouseMapper;
 import com.ims.domain.Admin;
-import com.ims.util.aop.UserOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
 @Service
-@Scope
 public class PeopleManagementService implements PeopleManagement {
     @Autowired
     AdminMapper adminMapper;
+
+    @Autowired
+    StorehouseMapper storehouseMapper;
 
     final String SELECT = "SELECT";
     final String INSERT = "INSERT";
@@ -26,7 +28,7 @@ public class PeopleManagementService implements PeopleManagement {
     @Override
     public String addAdmin(Admin admin) {
         Response response = Response.generateResponse();
-        if(verification(admin, response, INSERT)){
+        if(_verification(admin, response, INSERT)){
             try {
                 adminMapper.addAdmin(admin);
                 response.success();
@@ -58,7 +60,6 @@ public class PeopleManagementService implements PeopleManagement {
     }
 
     @Override
-    @UserOperation(value = "selectAllAdmin")
     public String selectAllAdmin(Integer offset, Integer limit){
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
@@ -85,9 +86,10 @@ public class PeopleManagementService implements PeopleManagement {
     }
 
     @Override
+    @Transactional
     public String modifyAdmin(Admin admin) {
         Response response = Response.generateResponse();
-        if(verification(admin, response, MODIFY)){
+        if(_verification(admin, response, MODIFY)){
             try{
                 adminMapper.modifyAdmin(admin);
                 response.success();
@@ -101,7 +103,7 @@ public class PeopleManagementService implements PeopleManagement {
     @Override
     public String deleteAdmin(Admin admin) {
         Response response = Response.generateResponse();
-        if(verification(admin, response, DELETE)){
+        if(_verification(admin, response, DELETE)){
             try {
                 adminMapper.deleteAdmin(admin);
                 response.success();
@@ -112,16 +114,16 @@ public class PeopleManagementService implements PeopleManagement {
         return response.toJSONString();
     }
 
-    private boolean verification(Admin admin, Response response, String operation){
+    private boolean _verification(Admin admin, Response response, String operation){
         if(admin == null){
             response.exception("参数不能为空");
             return false;
         }
         switch (operation){
             case INSERT:
-            case SELECT:
-                break;
             case MODIFY:
+                return _verification_rolesAndStorehouse(admin, response);
+            case SELECT:
             case DELETE:
                 if(admin.getId() == 0){
                     response.exception("id不能为空");
@@ -131,8 +133,24 @@ public class PeopleManagementService implements PeopleManagement {
         return true;
     }
 
+    public boolean _verification_rolesAndStorehouse(Admin admin, Response response){
+        if(admin.getRole() != null){
+            if (!admin.getRole().equals("systemAdmin") && !admin.getRole().equals("commonAdmin")) {
+                response.exception("权限设置错误");
+                return false;
+            }
+        }
+        if(admin.getStorehouseId() != null){
+            ArrayList<Integer> storehouseIds = storehouseMapper.selectAllStorehouseId();
+            if(!storehouseIds.contains(admin.getStorehouseId())){
+                response.exception("仓库设置错误");
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
-    @UserOperation(value = "selectByUsername")
     public Admin _selectByUsername(String name){
         return adminMapper.selectAdminByName(name).get(0);
     }

@@ -2,7 +2,6 @@ package com.ims.common.controller;
 
 import com.ims.common.service.Interface.GoodManagement;
 import com.ims.common.util.Response;
-import com.ims.util.aop.UserOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +24,7 @@ public class GoodSelectController {
     final String SELECT_BY_LESS = "selectByLess";
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    @UserOperation(value = "selectGood")
     public String selectGood(String type, String param, Integer offset, Integer limit){
-        System.out.println("goodSelect:  " + goodManagement);
         try {
             switch (type) {
                 case SELECT_ALL:

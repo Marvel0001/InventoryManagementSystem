@@ -21,5 +21,22 @@
         select * from Action_Record
     </select>
 
+    <select id="selectActionByUsername" resultMap="actionRecord">
+        select * from Action_Record where username=#{username}
+    </select>
+
+    <select id="selectActionByUserId" resultMap="actionRecord">
+        select * from Action_Record where userId=#{userId}
+    </select>
+
+    <select id="selectActionByActionName" resultMap="actionRecord">
+        select * from Action_Record where actionName=#{actionName}
+    </select>
+
+    <select id="selectActionByTimeGap" resultMap="actionRecord">
+        select * from Action_Record where time > #{pre} and time &lt; #{least}
+    </select>
+
+
 
 </mapper>

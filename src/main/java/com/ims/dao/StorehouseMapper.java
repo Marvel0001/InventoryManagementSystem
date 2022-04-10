@@ -19,6 +19,8 @@ public interface StorehouseMapper {
 
     ArrayList<Storehouse> selectAllStorehouse();
 
+    ArrayList<Integer> selectAllStorehouseId();
+
     void modifyStorehouse(Storehouse storehouse);
 
     void deleteStorehouse(Storehouse storehouse);

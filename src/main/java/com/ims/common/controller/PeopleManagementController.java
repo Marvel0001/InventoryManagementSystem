@@ -4,7 +4,6 @@ import com.ims.common.service.Interface.PeopleManagement;
 import com.ims.common.util.Response;
 import com.ims.domain.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class PeopleManagementController {
     @Autowired
-    @Lazy
     private PeopleManagement peopleManagement;
 
     final String SELECT_BY_ID = "selectById";
@@ -28,7 +26,8 @@ public class PeopleManagementController {
         return peopleManagement.addAdmin(admin);
     }
 
-    public String _Select(String type, String param, Integer offset, Integer limit){
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String Select(String type, String param, Integer offset, Integer limit){
         try {
             switch (type) {
                 case SELECT_ALL:
@@ -45,11 +44,6 @@ public class PeopleManagementController {
         }catch (NumberFormatException e){
             return Response._exception("参数错误");
         }
-    }
-
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String Select(String type, String param, Integer offset, Integer limit){
-        return _Select(type, param, offset, limit);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)

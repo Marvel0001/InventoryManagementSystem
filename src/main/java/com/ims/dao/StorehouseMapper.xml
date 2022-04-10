@@ -33,6 +33,9 @@
     <select id="selectStorehouseDisabled" resultMap="Storehouse">
         select * from Storehouse where status=0
     </select>
+    <select id="selectAllStorehouseId" resultType="java.lang.Integer">
+        select id from Storehouse
+    </select>
 
     <update id="modifyStorehouse">
         update

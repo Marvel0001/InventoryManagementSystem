@@ -23,9 +23,9 @@ public interface GoodManagement {
 
     String selectAllGood(Integer offset, Integer limit);
 
-    HashMap<Integer, String> selectAllName();
+    HashMap<Integer, String> _selectAllName();
 
-    String selectCommon(ArrayList<Good> goods);
+    String _selectCommon(ArrayList<Good> goods);
 
     String modifyGood(Good good);
 

@@ -4,19 +4,18 @@ import com.ims.common.util.Response;
 import com.ims.dao.StorageMapper;
 import com.ims.domain.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 
 import java.util.ArrayList;
 
 @Service
-@Scope
 public class StockManagementService implements StockManagement {
+
     @Autowired
     private StorageMapper storageMapper;
 
-    public String selectCommon(ArrayList<Storage> storages){
+    public String _selectCommon(ArrayList<Storage> storages){
         Response result = Response.generateResponse();
         Integer length = storages.size();
         if(!length.equals(0)){
@@ -39,7 +38,7 @@ public class StockManagementService implements StockManagement {
         if(limit > 0 && offset>=0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Storage> storages = storageMapper.selectAll(storehouseId);
-        return selectCommon(storages);
+        return _selectCommon(storages);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class StockManagementService implements StockManagement {
         if(limit > 0 && offset >0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Storage> storages = storageMapper.selectByGoodId(goodId, storehouseId);
-        return selectCommon(storages);
+        return _selectCommon(storages);
     }
 
     @Override
@@ -55,7 +54,7 @@ public class StockManagementService implements StockManagement {
         if(limit > 0 && offset >0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Storage> storages = storageMapper.selectByGoodName(goodName, storehouseId);
-        return selectCommon(storages);
+        return _selectCommon(storages);
     }
 
     @Override
@@ -63,7 +62,7 @@ public class StockManagementService implements StockManagement {
         if(limit > 0 && offset >0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Storage> storages = storageMapper.selectByGoodType(goodType, storehouseId);
-        return selectCommon(storages);
+        return _selectCommon(storages);
     }
 
     @Override

@@ -1,13 +1,18 @@
 package com.ims.domain;
 
+import com.alibaba.fastjson.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ActionRecord {
     private Integer id;
     private Integer userId;
     private String username;
     private String actionName;
-    private Double time;
+    private Long time;
 
-    public ActionRecord(Integer id, Integer userId, String username, String actionName, Double time) {
+    public ActionRecord(Integer id, Integer userId, String username, String actionName, Long time) {
         this.id = id;
         this.userId = userId;
         this.username = username;
@@ -20,13 +25,15 @@ public class ActionRecord {
 
     @Override
     public String toString() {
-        return "ActionRecord{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", username='" + username + '\'' +
-                ", actionName='" + actionName + '\'' +
-                ", time=" + time +
-                '}';
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(time);
+        JSONObject result = new JSONObject();
+        result.put("id", id);
+        result.put("userId", userId);
+        result.put("username", username);
+        result.put("actionName", actionName);
+        result.put("time", simpleDateFormat.format(date));
+        return result.toString();
     }
 
     public Integer getId() {
@@ -61,11 +68,11 @@ public class ActionRecord {
         this.actionName = actionName;
     }
 
-    public Double getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(Double time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 }

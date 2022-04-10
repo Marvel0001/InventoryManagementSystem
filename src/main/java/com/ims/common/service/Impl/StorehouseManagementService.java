@@ -6,13 +6,11 @@ import com.ims.common.util.Response;
 import com.ims.dao.StorehouseMapper;
 import com.ims.domain.Storehouse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
-@Scope
 public class StorehouseManagementService implements StorehouseManagement {
 
     @Autowired
@@ -39,7 +37,7 @@ public class StorehouseManagementService implements StorehouseManagement {
     @Override
     public String selectStorehouseById(Integer storehouseId) {
         ArrayList<Storehouse> storehouses = storehouseMapper.selectStorehouseById(storehouseId);
-        return selectCommon(storehouses);
+        return _selectCommon(storehouses);
     }
 
     @Override
@@ -47,7 +45,7 @@ public class StorehouseManagementService implements StorehouseManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Storehouse> storehouses = storehouseMapper.selectStorehouseByRegion(region);
-        return selectCommon(storehouses);
+        return _selectCommon(storehouses);
     }
 
     @Override
@@ -55,7 +53,7 @@ public class StorehouseManagementService implements StorehouseManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Storehouse> storehouses = storehouseMapper.selectStorehouseEnabled();
-        return selectCommon(storehouses);
+        return _selectCommon(storehouses);
     }
 
     @Override
@@ -63,7 +61,7 @@ public class StorehouseManagementService implements StorehouseManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Storehouse> storehouses = storehouseMapper.selectStorehouseDisabled();
-        return selectCommon(storehouses);
+        return _selectCommon(storehouses);
     }
 
     @Override
@@ -71,10 +69,10 @@ public class StorehouseManagementService implements StorehouseManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Storehouse> storehouses = storehouseMapper.selectAllStorehouse();
-        return selectCommon(storehouses);
+        return _selectCommon(storehouses);
     }
 
-    public String selectCommon(ArrayList<Storehouse> storehouses){
+    public String _selectCommon(ArrayList<Storehouse> storehouses){
         Response response = Response.generateResponse();
         int length = storehouses.size();
         if(length > 0){
