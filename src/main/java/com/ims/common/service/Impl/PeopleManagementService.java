@@ -129,6 +129,8 @@ public class PeopleManagementService implements PeopleManagement {
 
     @Override
     public Admin _selectByUsername(String name){
+        Admin admin = adminMapper.selectAdminByName(name).get(0);
+        System.out.println(admin+"*****");
         return adminMapper.selectAdminByName(name).get(0);
     }
 }

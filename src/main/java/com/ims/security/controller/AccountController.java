@@ -1,5 +1,8 @@
 package com.ims.security.controller;
 
+import com.alibaba.druid.sql.visitor.functions.Char;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.ims.common.service.Impl.PeopleManagementService;
 import com.ims.common.util.Response;
 import com.ims.domain.Admin;
@@ -8,9 +11,15 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.ImageProducer;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/Account")
@@ -21,13 +30,25 @@ public class AccountController {
     PeopleManagementService peopleManagementService;
 
     @RequestMapping(value = "/Login", method = RequestMethod.POST)
-    public String login(String username, String password){
+    public String login(@RequestBody String user){
         Subject subject = SecurityUtils.getSubject();
         Response response = Response.generateResponse();
-        System.out.println(username + "  " + password);
+        System.out.println(user.toString());
+//        String a[] = UserId.split("");
+//        String username ="";
+        Map<Object,Object> userID = JSONObject.parseObject(user,new TypeReference<Map<Object,Object>>(){});
+        System.out.println(userID);
+
+        String username = userID.get("username").toString();
+        String password =userID.get("password").toString();
+
+        System.out.println(username+"..."+password);
+
+        System.out.println("...");
         Admin admin;
         try{
             admin = peopleManagementService._selectByUsername(username);
+            System.out.println(admin);
         }catch (Exception e){
             e.printStackTrace();
             response.exception("用户名错误");
