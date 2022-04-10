@@ -16,6 +16,7 @@ public class FilterChainBuilder {
         LinkedHashMap<String, String> permission = new LinkedHashMap<>();
         permission.put("/js/**", "anon");
         permission.put("/Page/**", "anon");
+        permission.put("/css/**", "anon");
         ArrayList<Action> actions = actionMapper.selectAllAction();
         for(Action action: actions){
             if(action.getPermission().equals("1")){

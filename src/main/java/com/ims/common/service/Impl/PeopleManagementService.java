@@ -8,7 +8,6 @@ import com.ims.dao.StorehouseMapper;
 import com.ims.domain.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -42,21 +41,23 @@ public class PeopleManagementService implements PeopleManagement {
     @Override
     public String selectAdminById(Integer adminId) {
         ArrayList<Admin> admins = adminMapper.selectAdminById(adminId);
-        return selectCommon(admins);
+        return _selectCommon(admins);
     }
 
+    @Override
     public String selectAdminByName(String name, Integer offset, Integer limit){
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Admin> admins = adminMapper.selectAdminByName(name);
-        return selectCommon(admins);
+        return _selectCommon(admins);
     }
 
+    @Override
     public String selectAdminByStorehouseId(Integer storehouseId, Integer offset, Integer limit){
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Admin> admins = adminMapper.selectAdminByStorehouseId(storehouseId);
-        return selectCommon(admins);
+        return _selectCommon(admins);
     }
 
     @Override
@@ -64,10 +65,11 @@ public class PeopleManagementService implements PeopleManagement {
         if(offset >= 0 && limit > 0)
             PageHelper.offsetPage(offset, limit);
         ArrayList<Admin> admins = adminMapper.selectAllAdmin();
-        return selectCommon(admins);
+        return _selectCommon(admins);
     }
 
-    public String selectCommon(ArrayList<Admin> admins){
+    @Override
+    public String _selectCommon(ArrayList<Admin> admins){
         Response response = Response.generateResponse();
         int length = admins.size();
         if(length > 0){
@@ -86,7 +88,6 @@ public class PeopleManagementService implements PeopleManagement {
     }
 
     @Override
-    @Transactional
     public String modifyAdmin(Admin admin) {
         Response response = Response.generateResponse();
         if(_verification(admin, response, MODIFY)){
@@ -121,11 +122,13 @@ public class PeopleManagementService implements PeopleManagement {
         }
         switch (operation){
             case INSERT:
-                if(adminMapper.selectAdminByName(admin.getName()) != null){
-                    response.exception("数据库已存在重名管理员");
-                    return false;
-                }
             case MODIFY:
+                if(admin.getName() != null){
+                    if(adminMapper.selectAdminByName(admin.getName()) != null){
+                        response.exception("数据库已存在重名管理员");
+                        return false;
+                    }
+                }
                 return _verification_rolesAndStorehouse(admin, response);
             case SELECT:
             case DELETE:

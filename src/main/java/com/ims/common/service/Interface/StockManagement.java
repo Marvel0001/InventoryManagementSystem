@@ -17,7 +17,7 @@ public interface StockManagement {
      * @param storehouseId  仓库id
      * @param limit         选择的数量
      * @param offset        偏移值
-     * @return json字符串
+     * @return 查询结果
      */
     String selectByGoodId(Integer goodId, Integer storehouseId, Integer limit, Integer offset);
 
@@ -27,7 +27,7 @@ public interface StockManagement {
      * @param storehouseId  仓库id
      * @param limit         选择的数量
      * @param offset        偏移值
-     * @return json字符串
+     * @return 查询结果
      */
     String selectByGoodName(String goodName, Integer storehouseId, Integer limit, Integer offset);
 
@@ -37,11 +37,25 @@ public interface StockManagement {
      * @param storehouseId  仓库id
      * @param limit         选择的数量
      * @param offset        偏移值
-     * @return json字符串
+     * @return 查询结果
      */
     String selectByGoodType(String goodType, Integer storehouseId, Integer limit, Integer offset);
 
+    /**
+     * 进库
+     * @param goodId 货物id
+     * @param storehouseId 仓库id
+     * @param amount 货物数量
+     * @return 进库结果
+     */
     String stockIn(Integer goodId, Integer storehouseId, Integer amount);
 
+    /**
+     * 出库
+     * @param goodId 货物id
+     * @param storehouseId 仓库id
+     * @param amount 货物数量
+     * @return 出库结果
+     */
     String stockOut(Integer goodId, Integer storehouseId, Integer amount);
 }
