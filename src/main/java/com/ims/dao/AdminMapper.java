@@ -19,7 +19,6 @@ public interface AdminMapper {
 
     ArrayList<Admin> selectAllAdmin();
 
-    @Transactional
     void modifyAdmin(Admin admin);
 
     void deleteAdmin(Admin admin);

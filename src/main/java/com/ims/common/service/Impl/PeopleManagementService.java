@@ -121,6 +121,10 @@ public class PeopleManagementService implements PeopleManagement {
         }
         switch (operation){
             case INSERT:
+                if(adminMapper.selectAdminByName(admin.getName()) != null){
+                    response.exception("数据库已存在重名管理员");
+                    return false;
+                }
             case MODIFY:
                 return _verification_rolesAndStorehouse(admin, response);
             case SELECT:

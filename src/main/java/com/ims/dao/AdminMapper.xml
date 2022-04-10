@@ -63,7 +63,7 @@
     </select>
 
     <select id="selectAdminByName" resultType="com.ims.domain.Admin">
-        select * from Admin where name LIKE concat('%', concat(#{name}, '%'))
+        select * from Admin where name=#{name}
     </select>
 
     <select id="selectAdminByStorehouseId" resultType="com.ims.domain.Admin">
